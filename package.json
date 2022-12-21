@@ -1,0 +1,19 @@
+{
+  "name": "workspace_booking_system",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "packages/frontend_admin",
+    "packages/frontend_user",
+    "packages/backend"
+  ],
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "typescript": "^4.9.4",
+    "wsrun": "^5.2.4"
+  },
+  "scripts": {
+    "dev": "wsrun dev"
+  }
+}
