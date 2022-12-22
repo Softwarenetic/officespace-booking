@@ -15,5 +15,10 @@
   },
   "scripts": {
     "dev": "wsrun dev"
+  },
+  "dependencies": {
+    "pg": "^8.8.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.11"
   }
 }
