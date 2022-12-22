@@ -4,7 +4,7 @@ How to run a project:
 - yarn dev
 
 2) Ports on which projects are launched:
-
+.env files must be installed
 frontend_user - 3030
 frontend_admin - 3080
 backend - 4000
