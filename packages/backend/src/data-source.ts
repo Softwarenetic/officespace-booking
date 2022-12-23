@@ -7,6 +7,7 @@ import { CreateUser } from './migration/CreateUser';
 import {CreateOffice} from "./migration/CreateOffice";
 import {CreateReservation} from "./migration/CreateReservation";
 import {CreateWorkplace} from "./migration/CreateWorkplace";
+require('dotenv').config();
 
 export const AppDataSource = new DataSource({
   type: 'postgres',

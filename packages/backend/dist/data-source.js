@@ -10,6 +10,7 @@ const CreateUser_1 = require("./migration/CreateUser");
 const CreateOffice_1 = require("./migration/CreateOffice");
 const CreateReservation_1 = require("./migration/CreateReservation");
 const CreateWorkplace_1 = require("./migration/CreateWorkplace");
+require('dotenv').config();
 exports.AppDataSource = new typeorm_1.DataSource({
     type: 'postgres',
     host: process.env.DB_HOST,

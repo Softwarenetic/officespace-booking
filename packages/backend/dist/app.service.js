@@ -8,9 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
+const User_1 = require("./entity/User");
+const data_source_1 = require("./data-source");
 let AppService = class AppService {
     getHello() {
         return 'Hello World!';
+    }
+    async login({ email, name, image, }) {
+        const user = await data_source_1.AppDataSource.manager.findOneBy(User_1.User, { email: email });
+        if (!user) {
+            const newUser = new User_1.User();
+            newUser.email = email;
+            newUser.name = name;
+            newUser.avatar = image;
+            return newUser;
+        }
+        else {
+            console.log(user);
+            return user;
+        }
     }
 };
 AppService = __decorate([

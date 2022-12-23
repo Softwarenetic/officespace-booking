@@ -5,7 +5,7 @@ const typeorm_1 = require("typeorm");
 class CreateReservation {
     async up(queryRunner) {
         await queryRunner.createTable(new typeorm_1.Table({
-            name: "user",
+            name: "reservation",
             columns: [
                 {
                     name: "id",
