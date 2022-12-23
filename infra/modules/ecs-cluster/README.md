@@ -23,7 +23,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | `"enegix"` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment name | `string` | `"dev"` | no |
 
 ## Outputs
 

@@ -1,0 +1,17 @@
+# General check for all files
+fail_fast: false
+repos:
+
+# Check terraform code
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    # TODO: Bump version
+    rev: v1.76.0
+    hooks:
+      - id: terraform_fmt
+        files: '^modules/'
+        types: ['terraform']
+      - id: terraform_docs
+        files: '^modules/'
+        args:
+        - --hook-config=--create-file-if-not-exist=true
+        types: ['terraform']

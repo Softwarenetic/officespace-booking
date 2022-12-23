@@ -9,10 +9,8 @@ resource "aws_cloudfront_distribution" "frontend-cloudfront" {
   logging_config {
     bucket          = aws_s3_bucket.frontend-bucket-logs.bucket_domain_name
     include_cookies = false
-    prefix          = "sunday-dev-cloudfront-logs/"
+    prefix          = format("frontend-%-%/", var.bucket, var.environment)
   }
-
-  aliases = [local.acm_dns_name[0]]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
@@ -54,7 +52,7 @@ resource "aws_cloudfront_distribution" "frontend-cloudfront" {
   }
 
   tags = {
-    Name = "sunday-cloudfront-${var.environment}"
+    Name = format("%-%-frontend-cloudfront", var.environment, var.bucket)
   }
 
 
