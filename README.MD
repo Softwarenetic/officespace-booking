@@ -1,10 +1,17 @@
 How to run a project:
-1) Open the terminal in your code editor and enter the following commands:
-- yarn install
-- yarn dev
 
-2) Ports on which projects are launched:
-.env files must be installed
-frontend_user - 3030
-frontend_admin - 3080
-backend - 4000
+1. Open the terminal in your code editor and enter the following commands:
+
+```yarn install```
+
+
+2. Set environment variables.
+   example:
+
+```
+FRONT_PORT=3000
+ADMIN_PORT=3001
+BACKEND_PORT=4000
+```
+
+3. run ```yarn dev```

@@ -11,7 +11,7 @@ data_source_1.AppDataSource.initialize()
     .catch((error) => console.error('Error during Data Source initialization: ', error));
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    await app.listen(4000);
+    await app.listen(process.env.BACKEND_PORT);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map
