@@ -1,6 +1,4 @@
-import SignInWindow from "./components/SignInWindow/SignInWindow";
-
-
+import SignInWindow from "./pages/sign-in/SignInWindow";
 
 function App() {
   return (
