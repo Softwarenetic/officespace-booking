@@ -8,10 +8,10 @@ repos:
     rev: v1.76.0
     hooks:
       - id: terraform_fmt
-        files: '^modules/'
+        files: '^infra/modules/'
         types: ['terraform']
       - id: terraform_docs
-        files: '^modules/'
+        files: '^infra/modules'
         args:
         - --hook-config=--create-file-if-not-exist=true
         types: ['terraform']

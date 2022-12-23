@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "frontend-bucket" {
-  bucket = format("%-%-frontend",var.environment, var.bucket)
-  
+  bucket = format("%-%-frontend", var.environment, var.bucket)
+
   versioning {
     enabled = true
   }
@@ -12,14 +12,14 @@ resource "aws_s3_bucket" "frontend-bucket" {
     }
   }
   tags = {
-    Name        = format("%-%-frontend",var.environment, var.bucket)
+    Name        = format("%-%-frontend", var.environment, var.bucket)
     Environment = var.environment
   }
 }
 
 resource "aws_s3_bucket" "frontend-bucket-logs" {
-  bucket = format("%-%-frontend-logs",var.environment, var.bucket)
-  
+  bucket = format("%-%-frontend-logs", var.environment, var.bucket)
+
   versioning {
     enabled = true
   }
@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "frontend-bucket-logs" {
     }
   }
   tags = {
-    Name        = format("%-%-frontend",var.environment, var.bucket)
+    Name        = format("%-%-frontend", var.environment, var.bucket)
     Environment = var.environment
   }
 }
