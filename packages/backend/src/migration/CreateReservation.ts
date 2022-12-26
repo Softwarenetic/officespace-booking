@@ -5,7 +5,7 @@ export class CreateReservation implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "user",
+                name: "reservation",
                 columns: [
                     {
                         name: "id",
