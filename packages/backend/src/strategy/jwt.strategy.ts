@@ -1,8 +1,8 @@
 import {ExtractJwt, Strategy} from 'passport-jwt';
 import {PassportStrategy} from '@nestjs/passport';
 import {Injectable, UnauthorizedException} from '@nestjs/common';
-import {User} from './entity/User';
-import {AppDataSource} from "./config/typeorm.config";
+import {User} from '../entity/User';
+import {AppDataSource} from "../config/typeorm.config";
 
 export type JwtPayload = {
     id: string;
@@ -10,7 +10,7 @@ export type JwtPayload = {
 };
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtStrategy extends PassportStrategy(Strategy, process.env.JWT_STRATEGY) {
     constructor() {
         const extractJwtFromCookie = (req) => ExtractJwt.fromAuthHeaderAsBearerToken()(req);
 

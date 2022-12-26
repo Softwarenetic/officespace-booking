@@ -17,18 +17,18 @@ export class AppController {
         return this.appService.getHello();
     }
 
-    @UseGuards(AuthGuard("jwt"))
+    @UseGuards(AuthGuard(process.env.JWT_STRATEGY))
     @Get('hello')
     async hello(@Req() req) {
         return req.user;
     }
 
-    @UseGuards(AuthGuard("google"))
+    @UseGuards(AuthGuard(process.env.GOOGLE_STRATEGY))
     @Get("login")
     async signInWithGoogle() {
     }
 
-    @UseGuards(AuthGuard("google"))
+    @UseGuards(AuthGuard(process.env.GOOGLE_STRATEGY))
     @Get("google/redirect")
     async signInWithGoogleRedirect(@Req() req) {
         return this.appService.signInWithGoogle(req);
