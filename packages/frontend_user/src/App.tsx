@@ -6,13 +6,13 @@ import {GoogleOAuthProvider, GoogleLogin} from "@react-oauth/google";
 import axios from "axios";
 
 function App() {
-    const GOOGLE_CLIENT_ID = '932663426648-82mkdignd0jnvhgpbvv8mdiloo40h6rr.apps.googleusercontent.com';
-    alert(GOOGLE_CLIENT_ID);
+    const GOOGLE_CLIENT_ID = '932663426648-pq1ef6fpcfl5dq5ptv00mmbhpi174fko.apps.googleusercontent.com';
+
     useEffect(() => {
         const initClient = () => {
             gapi.client.init({
                 clientId: process.env.GOOGLE_CLIENT_ID,
-                scope: ''
+                scope: ["email", "profile"],
             });
         };
         gapi.load('client:auth2', initClient);
@@ -45,12 +45,11 @@ function App() {
                     >
                         <GoogleLogin
                             onSuccess={async (credentialResponse) => {
+                                debugger;
                                 console.log(credentialResponse);
                                 const {data} = await axios.post(
-                                    "http://localhost:4000/google/redirect",
-                                    {
-                                        token: credentialResponse.credential,
-                                    }
+                                    "http://localhost:4000/login",
+                                    {token: credentialResponse.credential}
                                 );
                                 localStorage.setItem("AuthData", JSON.stringify(data));
                                 alert('success');

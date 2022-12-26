@@ -1,6 +1,8 @@
 import {
+    Body,
     Controller,
     Get,
+    Post,
     Req,
     UseGuards,
 } from '@nestjs/common';
@@ -8,7 +10,12 @@ import {AppService} from './app.service';
 import {AuthGuard} from '@nestjs/passport';
 import { Request } from 'express';
 import { JWT_STRATEGY } from './common/strategy/jwt.strategy';
-import { GOOGLE_STRATEGY } from './common/strategy/google.strategy';
+import { OAuth2Client } from 'google-auth-library';
+
+const client = new OAuth2Client(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+   );
 
 @Controller()
 export class AppController {
@@ -26,15 +33,19 @@ export class AppController {
         return req.user;
     }
 
-    @UseGuards(AuthGuard(GOOGLE_STRATEGY))
-    @Get("login")
-    async signInWithGoogle() {
-    }
+    @Post("login")
+    async login(@Body('token') token) {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+          });
+          console.log(ticket.getPayload(), 'ticket');
 
-    @UseGuards(AuthGuard(GOOGLE_STRATEGY))
-    @Get("google/redirect")
-    async signInWithGoogleRedirect(@Req() req: Request) {
-        return this.appService.signInWithGoogle(req);
+          const data = await this.appService.signInWithGoogle(ticket.getPayload());
+          return {
+            data,
+            message: 'success',
+          };
     }
 
 }
