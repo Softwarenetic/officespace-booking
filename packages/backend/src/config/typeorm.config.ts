@@ -3,10 +3,6 @@ import User from '../entity/User';
 import Workplace from '../entity/Workplace';
 import Office from '../entity/Office';
 import Reservation from '../entity/Reservation';
-import {CreateUser} from '../migration/CreateUser';
-import {CreateOffice} from "../migration/CreateOffice";
-import {CreateReservation} from "../migration/CreateReservation";
-import {CreateWorkplace} from "../migration/CreateWorkplace";
 
 require('dotenv').config();
 
@@ -21,5 +17,6 @@ export const AppDataSource = new DataSource({
     logging: true,
     entities: [User, Workplace, Office, Reservation],
     subscribers: [],
-    migrations: [CreateUser, CreateOffice, CreateReservation, CreateWorkplace],
+    migrationsRun: true,
+    migrations: ['./src/migration/*{.ts,.js}'],
 });

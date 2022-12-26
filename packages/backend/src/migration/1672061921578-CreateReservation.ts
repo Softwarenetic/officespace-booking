@@ -1,11 +1,12 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm"
+import {PostRefactoring1672061921578} from "../../path-to-migrations-dir/1672061921578-PostRefactoring";
 
-export class CreateReservation implements MigrationInterface {
+export class CreateReservation1672061921578 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "user",
+                name: "reservation",
                 columns: [
                     {
                         name: "id",
@@ -18,11 +19,6 @@ export class CreateReservation implements MigrationInterface {
                         name: "from",
                         type: "varchar",
                         length: "20",
-                    },
-                    {
-                        name: "to",
-                        type: "timestamp",
-                        default: "now()",
                     },
                     {
                         name: "to",
