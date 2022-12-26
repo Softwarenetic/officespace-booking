@@ -1,5 +1,7 @@
 #node modules
-**/node_modules/*
+**/node_modules
+.DS_STORE
+node_modules/*
 # Local .terraform directories
 **/.terraform/*
 
@@ -39,3 +41,28 @@ override.tf.json
 terraform.rc
 
 
+scripts/flow/*/.flowconfig
+.flowconfig
+*~
+*.pyc
+.grunt
+_SpecRunner.html
+__benchmarks__
+remote-repo/
+coverage/
+.module-cache
+fixtures/dom/public/react-dom.js
+fixtures/dom/public/react.js
+test/the-files-to-test.generated.js
+*.log*
+chrome-user-data
+*.sublime-project
+*.sublime-workspace
+.idea
+*.iml
+.vscode
+*.swp
+*.swo
+.env
+dist/
+build/
