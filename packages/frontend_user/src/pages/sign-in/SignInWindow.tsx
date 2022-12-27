@@ -14,7 +14,7 @@ const SignInWindow: React.FC = () => {
     const initClient = () => {
       gapi.client.init({
         clientId: process.env.GOOGLE_CLIENT_ID,
-        scope: "",
+        scope: ['profile', 'email'],
       });
     };
     gapi.load("client:auth2", initClient);
