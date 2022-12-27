@@ -6,6 +6,8 @@ resource "aws_instance" "app" {
         Name = "${var.environment}-app-wbs"
     }
     depends_on = [aws_security_group.vpc-https]
+    subnet_id = module.vpc-dev.public_subnets[0]
+    security_groups = [aws_security_group.vpc-https.id]
 }
 
 resource "aws_eip" "app-ip" {
@@ -23,12 +25,14 @@ resource "aws_instance" "psql" {
     }
     depends_on = [aws_security_group.psql]
     subnet_id = module.vpc-dev.public_subnets[0]
-
+    security_groups = [aws_security_group.psql.id]
 }
+
 resource "null_resource" "wait2connect_app" {
  provisioner "remote-exec" {
     connection {
-      host         = aws_instance.app.public_dns
+      type = "ssh"
+      host         = aws_instance.app.public_ip
       user         = "ubuntu"
       private_key  = file(var.key)
     }
@@ -37,7 +41,7 @@ resource "null_resource" "wait2connect_app" {
       "sudo apt install -y nginx git npm nodejs"]
   }
   depends_on = [
-    aws_instance.app
+    aws_instance.app, null_resource.wait2connect_db
   ]
   }
 
@@ -45,10 +49,12 @@ resource "null_resource" "wait2connect_app" {
 resource "null_resource" "wait2connect_db" {
  provisioner "remote-exec" {
     connection {
-      host         = aws_instance.psql.public_dns
+      type = "ssh"
+      host         = aws_instance.psql.public_ip
       user         = "ubuntu"
       private_key  = file(var.key)
     }
+
 
     inline = ["echo 'connected!'","sudo apt update",
       "sudo apt psql"]

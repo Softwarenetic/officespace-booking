@@ -16,12 +16,13 @@ module "vpc-dev" {
   database_subnets = ["10.1.3.0/25", "10.1.3.128/25"]
 
   enable_nat_gateway     = true
-  single_nat_gateway     = true
+  single_nat_gateway     = false
   one_nat_gateway_per_az = false
   enable_vpn_gateway     = false
   enable_dns_hostnames   = true
   enable_dns_support     = true
   create_vpc             = true
+  create_igw = true
 
   vpc_tags = {
     Name = format("%-vpc", var.environment)
@@ -38,7 +39,7 @@ resource "aws_security_group" "vpc-https" {
     from_port         = 443
     to_port           = 443
     protocol          = "tcp"
-    cidr_blocks       = [module.vpc-dev.vpc_cidr_block]
+    cidr_blocks       = ["0.0.0.0/0"]
     description       = "Allow HTTPS inbound"
   } 
 
@@ -46,7 +47,7 @@ resource "aws_security_group" "vpc-https" {
     from_port         = 80
     to_port           = 80
     protocol          = "tcp"
-    cidr_blocks       = [module.vpc-dev.vpc_cidr_block]
+    cidr_blocks       = ["0.0.0.0/0"]
     description       = "Allow HTTP inbound"
   }
 
@@ -55,7 +56,7 @@ resource "aws_security_group" "vpc-https" {
     from_port         = 22
     to_port           = 22
     protocol          = "tcp"
-    cidr_blocks       = [module.vpc-dev.vpc_cidr_block, "${local.ifconfig_co_json.ip}/32"]
+    cidr_blocks       = ["0.0.0.0/0"]#[module.vpc-dev.vpc_cidr_block, "${local.ifconfig_co_json.ip}/32"]
     description       = "Allow SSH inbound and my IP"
   }
 
@@ -81,14 +82,14 @@ resource "aws_security_group" "psql" {
         from_port         = 22
         to_port           = 22
         protocol          = "tcp"
-        cidr_blocks       = [module.vpc-dev.vpc_cidr_block, "${local.ifconfig_co_json.ip}/32"]
+        cidr_blocks       = ["0.0.0.0/0"]#[module.vpc-dev.vpc_cidr_block, "${local.ifconfig_co_json.ip}/32"]
         description       = "Allow SSH inbound and my IP"
     }
     ingress {
         from_port         = 5432
         to_port           = 5432
         protocol          = "tcp"
-        cidr_blocks       = [module.vpc-dev.vpc_cidr_block]
+        cidr_blocks       = ["0.0.0.0/0"]
         description       = "Allow PSQL connection inbound and my IP"
     }
 
