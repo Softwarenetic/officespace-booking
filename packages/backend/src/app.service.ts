@@ -2,6 +2,7 @@ import {BadRequestException, Injectable} from '@nestjs/common';
 import {AppDataSource} from "./config/typeorm.config";
 import {User} from "./entity/User";
 import {JwtService} from '@nestjs/jwt';
+import {TokenPayload} from "google-auth-library";
 
 @Injectable()
 export class AppService {
@@ -10,9 +11,7 @@ export class AppService {
         return 'Hello World!';
     }
 
-    constructor(
-        private jwtService: JwtService
-    ) {
+    constructor(private jwtService: JwtService) {
     }
 
     async login(user: User) {
@@ -30,27 +29,27 @@ export class AppService {
         };
     }
 
-    async signInWithGoogle(data) {
-        if (!data.user) throw new BadRequestException();
-
-        let user = (await AppDataSource.manager.findBy(User, {email: data.user.email}))[0];
+    async signInWithGoogle(data: TokenPayload) {
+        if (!data) throw new BadRequestException();
+        let user = (await AppDataSource.manager.findOneBy(User, {email: data.email}));
         if (user) return this.login(user);
+
+        const companyNameFromEmailRegex = /@(.*?)\./;
 
         try {
             const newUser = new User();
-            newUser.name = data.user.firstName;
-            newUser.surname = data.user.lastName || "-";
-            newUser.email = data.user.email;
-            newUser.id = data.user.id;
-            newUser.company = '-';
+            newUser.name = data.given_name;
+            newUser.surname = data.family_name || "-";
+            newUser.email = data.email;
+            newUser.company = data.email.match(companyNameFromEmailRegex)[1] === 'gmail' ? '-' : data.email.match(companyNameFromEmailRegex)[1];
             newUser.position = '-';
-            newUser.avatar = data.user.picture;
+            newUser.avatar = data.picture;
 
             await AppDataSource.manager.save(newUser);
             return this.login(newUser);
         } catch (e) {
-            throw new Error(e);
+            console.log(e);
+            return;
         }
     }
-
 }

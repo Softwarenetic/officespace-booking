@@ -17,7 +17,7 @@
         "web-vitals": "^2.1.0"
     },
     "scripts": {
-        "dev": "set PORT=$(grep ADMIN_PORT ./.env) && react-scripts start",
+        "dev": "react-scripts start",
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",

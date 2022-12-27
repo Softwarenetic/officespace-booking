@@ -1,11 +1,12 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm"
+import {WorkplaceType} from "../entity/Workplace";
 
-export class CreateOffice implements MigrationInterface {
+export class CreateWorkplace1672061921578 implements MigrationInterface {
 
-    async up(queryRunner: QueryRunner): Promise<void> {
+    public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "office",
+                name: "workplace",
                 columns: [
                     {
                         name: "id",
@@ -20,26 +21,18 @@ export class CreateOffice implements MigrationInterface {
                         length: "20",
                     },
                     {
-                        name: "address",
-                        type: "varchar",
-                        length: "100",
-                    },
-                    {
-                        name: "floor",
-                        type: "int",
-                    },
-                    {
-                        name: "svg",
-                        type: "text",
-                    },
-                ],
+                        name: "type",
+                        type: "enum",
+                        enum: ['TABLE', 'ROOM'],
+                        enumName: 'WorkplaceType',
+                    }
+                ]
             }),
             true,
         )
-
     }
 
-    async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("office")
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`DROP TABLE "workplace"`);
     }
 }
