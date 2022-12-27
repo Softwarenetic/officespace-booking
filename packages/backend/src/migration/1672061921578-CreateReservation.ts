@@ -1,5 +1,4 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm"
-import {PostRefactoring1672061921578} from "../../path-to-migrations-dir/1672061921578-PostRefactoring";
 
 export class CreateReservation1672061921578 implements MigrationInterface {
 

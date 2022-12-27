@@ -1,6 +1,5 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm"
 import {WorkplaceType} from "../entity/Workplace";
-import {PostRefactoring1672061921578} from "../../path-to-migrations-dir/1672061921578-PostRefactoring";
 
 export class CreateWorkplace1672061921578 implements MigrationInterface {
 

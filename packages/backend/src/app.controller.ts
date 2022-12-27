@@ -8,14 +8,14 @@ import {
 } from '@nestjs/common';
 import {AppService} from './app.service';
 import {AuthGuard} from '@nestjs/passport';
-import { Request } from 'express';
-import { JWT_STRATEGY } from './common/strategy/jwt.strategy';
-import { OAuth2Client } from 'google-auth-library';
+import {Request} from 'express';
+import {JWT_STRATEGY} from './common/strategy/jwt.strategy';
+import {OAuth2Client} from 'google-auth-library';
 
 const client = new OAuth2Client(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-   );
+);
 
 @Controller()
 export class AppController {
@@ -38,14 +38,13 @@ export class AppController {
         const ticket = await client.verifyIdToken({
             idToken: token,
             audience: process.env.GOOGLE_CLIENT_ID,
-          });
-          console.log(ticket.getPayload(), 'ticket');
-
-          const data = await this.appService.signInWithGoogle(ticket.getPayload());
-          return {
+        });
+        if (ticket) return {message: 'non valid token'}
+        const payload = ticket.getPayload()
+        const data = await this.appService.signInWithGoogle(payload);
+        return {
             data,
             message: 'success',
-          };
+        };
     }
-
 }

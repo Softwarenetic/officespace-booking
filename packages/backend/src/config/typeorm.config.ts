@@ -18,5 +18,5 @@ export const AppDataSource = new DataSource({
     entities: [User, Workplace, Office, Reservation],
     subscribers: [],
     migrationsRun: true,
-    migrations: ['./src/migration/*{.ts,.js}'],
+    migrations: ['dist/migration/**/*.js'],
 });

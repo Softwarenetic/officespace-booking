@@ -6,7 +6,7 @@ import {GoogleOAuthProvider, GoogleLogin} from "@react-oauth/google";
 import axios from "axios";
 
 function App() {
-    const GOOGLE_CLIENT_ID = '932663426648-pq1ef6fpcfl5dq5ptv00mmbhpi174fko.apps.googleusercontent.com';
+    const GOOGLE_CLIENT_ID = '932663426648-82mkdignd0jnvhgpbvv8mdiloo40h6rr.apps.googleusercontent.com';
 
     useEffect(() => {
         const initClient = () => {
