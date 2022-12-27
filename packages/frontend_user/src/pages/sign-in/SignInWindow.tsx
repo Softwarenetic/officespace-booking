@@ -6,15 +6,20 @@ import { gapi } from "gapi-script";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import "./SignInWindow.scss";
-import {configs} from '../../config/config';
-
+import { configs } from "../../config/config";
+import { useAppDispatch } from "../../hooks/redux";
+import UserSlice, { userSlice } from "../../store/reducers/UserSlice";
+import { useNavigate } from "react-router-dom";
 
 const SignInWindow: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
         clientId: process.env.GOOGLE_CLIENT_ID,
-        scope: ['profile', 'email'],
+        scope: ["profile", "email"],
       });
     };
     gapi.load("client:auth2", initClient);
@@ -23,6 +28,8 @@ const SignInWindow: React.FC = () => {
   const onFailure = (): void => {
     console.log("failed");
   };
+
+  dispatch(userSlice.actions.loginSuccess);
 
   return (
     <Grid
@@ -40,14 +47,14 @@ const SignInWindow: React.FC = () => {
         <GoogleLogin
           onSuccess={async (credentialResponse) => {
             console.log(credentialResponse);
-            const { data } = await axios.post(
-              `${configs.baseUrl}/login`,
-              {
-                token: credentialResponse.credential,
-              }
-            );
+            const { data } = await axios.post(`${configs.baseUrl}/login`, {
+              token: credentialResponse.credential,
+            });
             localStorage.setItem("AuthData", JSON.stringify(data));
-            alert("success");
+            dispatch(userSlice.actions.loginSuccess);
+            return data.message == "success"
+              ? navigate("/")
+              : alert(data.message);
           }}
           onError={onFailure}
         />
