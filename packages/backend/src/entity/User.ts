@@ -26,7 +26,7 @@ export class User {
   position: string;
 
   @Column({
-    length: 30,
+    length: 50,
   })
   email: string;
 

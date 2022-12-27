@@ -1,24 +1,24 @@
 {
-  "name": "workspace_booking_system",
-  "version": "1.0.0",
-  "private": true,
-  "license": "MIT",
-  "workspaces": [
-    "packages/frontend_admin",
-    "packages/frontend_user",
-    "packages/backend"
-  ],
-  "devDependencies": {
-    "cross-env": "^7.0.3",
-    "typescript": "^4.9.4",
-    "wsrun": "^5.2.4"
-  },
-  "scripts": {
-    "dev": "wsrun dev"
-  },
-  "dependencies": {
-    "pg": "^8.8.0",
-    "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.11"
-  }
+    "name": "workspace_booking_system",
+    "version": "1.0.0",
+    "private": true,
+    "license": "MIT",
+    "workspaces": [
+        "packages/frontend_user",
+        "packages/frontend_admin",
+        "packages/backend"
+    ],
+    "devDependencies": {
+        "cross-env": "^7.0.3",
+        "typescript": "^4.9.4",
+        "wsrun": "^5.2.4"
+    },
+    "scripts": {
+        "dev": "wsrun dev"
+    },
+    "dependencies": {
+        "pg": "^8.8.0",
+        "reflect-metadata": "^0.1.13",
+        "typeorm": "^0.3.11"
+    }
 }

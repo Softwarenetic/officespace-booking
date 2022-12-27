@@ -1,12 +1,11 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm"
-import {WorkplaceType} from "../entity/Workplace";
 
-export class CreateWorkplace implements MigrationInterface {
+export class CreateReservation1672061921578 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "user",
+                name: "reservation",
                 columns: [
                     {
                         name: "id",
@@ -16,17 +15,27 @@ export class CreateWorkplace implements MigrationInterface {
                         generationStrategy: "increment"
                     },
                     {
-                        name: "name",
+                        name: "from",
                         type: "varchar",
                         length: "20",
                     },
                     {
-                        name: "type",
-                        type: "enum",
-                        enum: ['TABLE', 'ROOM'],
-                        enumName: 'WorkplaceType',
-                        default: '"TABLE"',
-                    }
+                        name: "to",
+                        type: "timestamp",
+                        default: "now()",
+                    },
+                    {
+                        name: "user",
+                        type: "int",
+                    },
+                    {
+                        name: "workplace",
+                        type: "int",
+                    },
+                    {
+                        name: "office",
+                        type: "int",
+                    },
                 ]
             }),
             true,
@@ -34,6 +43,6 @@ export class CreateWorkplace implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`DROP TABLE "workplace"`);
+        await queryRunner.query(`DROP TABLE "reservation"`);
     }
 }
