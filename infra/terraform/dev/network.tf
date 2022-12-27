@@ -49,7 +49,22 @@ resource "aws_security_group" "vpc-https" {
     protocol          = "tcp"
     cidr_blocks       = ["0.0.0.0/0"]
     description       = "Allow HTTP inbound"
+  }  
+  ingress {
+    from_port         = 3000
+    to_port           = 3000
+    protocol          = "tcp"
+    cidr_blocks       = ["0.0.0.0/0"]
+    description       = "Allow HTTP inbound"
   }
+    ingress {
+    from_port         = 3001
+    to_port           = 3001
+    protocol          = "tcp"
+    cidr_blocks       = ["0.0.0.0/0"]
+    description       = "Allow HTTP inbound"
+  }  
+  
 
 
   ingress {
