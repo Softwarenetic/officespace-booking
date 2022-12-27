@@ -1,11 +1,9 @@
-import SignInWindow from "./pages/sign-in/SignInWindow";
 
-function App() {
-  return (
-    <div>
-      <SignInWindow/>
-    </div>
-  );
-}
+import {RouterProvider} from "react-router-dom"
+import { routing } from './routing/routing';
+
+export const App = () => <RouterProvider router={routing}/>
+        
+    
 
 export default App;

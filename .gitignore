@@ -63,6 +63,8 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
-.env
+packages/backend/.env
+packages/frontend_*/.env.*
 dist/
 build/
+yarn.lock
