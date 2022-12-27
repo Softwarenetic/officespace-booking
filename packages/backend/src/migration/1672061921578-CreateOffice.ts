@@ -1,6 +1,6 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm"
+import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class CreateOffice implements MigrationInterface {
+export class CreateOffice1672061921578 implements MigrationInterface {
 
     async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(

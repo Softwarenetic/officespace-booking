@@ -1,11 +1,11 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm"
+import {MigrationInterface, QueryRunner, Table} from 'typeorm';
 
-export class CreateReservation implements MigrationInterface {
+export class CreateUser1672061921578 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "reservation",
+                name: "user",
                 columns: [
                     {
                         name: "id",
@@ -15,31 +15,33 @@ export class CreateReservation implements MigrationInterface {
                         generationStrategy: "increment"
                     },
                     {
-                        name: "from",
+                        name: "name",
                         type: "varchar",
                         length: "20",
                     },
                     {
-                        name: "to",
-                        type: "timestamp",
-                        default: "now()",
+                        name: "surname",
+                        type: "varchar",
+                        length: "24",
                     },
                     {
-                        name: "to",
-                        type: "timestamp",
-                        default: "now()",
+                        name: "company",
+                        type: "varchar",
+                        length: "20",
                     },
                     {
-                        name: "user",
-                        type: "int",
+                        name: "position",
+                        type: "varchar",
+                        length: "20",
                     },
                     {
-                        name: "workplace",
-                        type: "int",
+                        name: "email",
+                        type: "varchar",
+                        length: "50",
                     },
                     {
-                        name: "office",
-                        type: "int",
+                        name: "avatar",
+                        type: "text",
                     },
                 ]
             }),
@@ -48,6 +50,7 @@ export class CreateReservation implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`DROP TABLE "reservation"`);
+        await queryRunner.dropTable("user")
     }
 }
+
