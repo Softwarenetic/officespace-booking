@@ -52,7 +52,7 @@ function App() {
                                     {token: credentialResponse.credential}
                                 );
                                 localStorage.setItem("AuthData", JSON.stringify(data));
-                                alert('success');
+                                alert(data["message"]);
                             }}
                             onError={onFailure}
                         />
