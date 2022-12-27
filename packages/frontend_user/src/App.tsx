@@ -1,17 +1,9 @@
-import SignInWindow from "./pages/sign-in/SignInWindow";
 
-import './App.css';
-import { useAppSelector } from './hooks/redux';
+import {RouterProvider} from "react-router-dom"
+import { routing } from './routing/routing';
 
-function App() {
-  
-  
-  
-  return (
-    <div>
-      <SignInWindow/>
-    </div>
-  );
-}
+export const App = () => <RouterProvider router={routing}/>
+        
+    
 
 export default App;

@@ -37,7 +37,7 @@ export class CreateUser implements MigrationInterface {
                     {
                         name: "email",
                         type: "varchar",
-                        length: "30",
+                        length: "50",
                     },
                     {
                         name: "avatar",
