@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid';
 import axios from "axios";
 import {gapi} from "gapi-script";
 import React, {useEffect} from 'react';
-import logo from './logo.svg';
 import {GoogleOAuthProvider, GoogleLogin} from "@react-oauth/google";
 
 
