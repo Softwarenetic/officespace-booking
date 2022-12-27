@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     Body,
     Controller,
     Get,
@@ -39,7 +40,7 @@ export class AppController {
             idToken: token,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
-        if (!ticket) return {message: 'non valid token'}
+        if (!ticket) throw new BadRequestException();
         const payload = ticket.getPayload()
         const data = await this.appService.signInWithGoogle(payload);
         return {
