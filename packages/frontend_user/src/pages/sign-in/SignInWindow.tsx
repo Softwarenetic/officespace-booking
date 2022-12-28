@@ -8,7 +8,7 @@ import axios from "axios";
 import "./SignInWindow.scss";
 import { configs } from "../../config/config";
 import { useAppDispatch } from "../../hooks/redux";
-import UserSlice, { userSlice } from "../../store/reducers/UserSlice";
+import UserSlice, { loginSuccess, userSlice } from "../../store/reducers/UserSlice";
 import { useNavigate } from "react-router-dom";
 
 const SignInWindow: React.FC = () => {
@@ -50,8 +50,8 @@ const SignInWindow: React.FC = () => {
             const { data } = await axios.post(`${configs.baseUrl}/login`, {
               token: credentialResponse.credential,
             });
-            localStorage.setItem("AuthData", JSON.stringify(data));
-            dispatch(userSlice.actions.loginSuccess);
+            localStorage.setItem("AuthData", data.data);
+            dispatch(loginSuccess());
             return data.message == "success"
               ? navigate("/")
               : alert(data.message);
