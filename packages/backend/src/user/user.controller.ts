@@ -1,4 +1,4 @@
-import {Controller, Get, Patch, Delete, UseGuards, Req} from '@nestjs/common';
+import {Controller, Get, Patch, Delete, UseGuards, Req, Body} from '@nestjs/common';
 import {UserService} from './user.service';
 import {AuthGuard} from "@nestjs/passport";
 import {JWT_STRATEGY} from "../common/strategy/jwt.strategy";
@@ -18,13 +18,13 @@ export class UserController {
 
     @UseGuards(AuthGuard(JWT_STRATEGY))
     @Patch()
-    update(@Req() req: Request) {
-        return this.userService.update(<User>req.user);
+    update(@Req() req: Request, @Body() user: User) {
+        return this.userService.update((<User>req.user).id, user);
     }
 
     @UseGuards(AuthGuard(JWT_STRATEGY))
     @Delete()
     remove(@Req() req: Request) {
-        return this.userService.remove(<User>req.user);
+        return this.userService.remove((<User>req.user).id);
     }
 }
