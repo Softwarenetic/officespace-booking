@@ -19,15 +19,16 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    loginSuccess(state, action: PayloadAction<string | boolean>) {
+    loginSuccess(state) {
       localStorage.setItem("authApp", "true");
       state.isAuthenticated = true;
     },
-    logoutSuccess(state, action: PayloadAction<string | boolean>) {
+    logoutSuccess(state) {
       localStorage.removeItem("authApp");
       state.isAuthenticated = false;
     },
   },
 });
 
+export const { loginSuccess, logoutSuccess } = userSlice.actions
 export default userSlice.reducer;
