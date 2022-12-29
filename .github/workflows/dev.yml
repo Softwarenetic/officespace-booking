@@ -74,4 +74,4 @@ jobs:
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone "${{ GITHUB_SERVER_URL }}/${{ GITHUB_REPOSITORY }}"; cd officespace-booking; git checkout WBS-8; git pull; cd scripts; . build.sh" 
+      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone ${{ GITHUB_SERVER_URL }}/${{ GITHUB_REPOSITORY }}; cd officespace-booking; git checkout WBS-8; git pull; cd scripts; . build.sh" 
