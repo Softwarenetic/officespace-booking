@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ WBS-8 ]
 env:
-  GIT_REPO: https://github.com/Softwarenetic/officespace-booking.git
+  GIT_REPO: "https://github.com/Softwarenetic/officespace-booking.git"
 jobs:
   run_app:
     runs-on: ubuntu-latest
