@@ -46,16 +46,10 @@ jobs:
               SSH_KEY: ${{ secrets.SSH_KEY }}
       - run:  ssh ${{ steps.ssh_mkdir.outputs.SERVER }} "cd /home/ubuntu; rm -rf frontend_user frontend_admin; mkdir frontend_user frontend_admin; chmod 777 frontend_admin/ frontend_user/"
 
-      - id: ssh_copy
-        uses: invi5H/ssh-action@v1
-        with:
-              SSH_HOST: ${{ secrets.SSH_HOST }}
-              SSH_PORT: ${{ secrets.SSH_PORT }}
-              SSH_USER: ${{ secrets.SSH_USER }}
-              SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: | 
-          scp packages/frontend_user/build/* ubuntu@34.254.237.165:/home/ubuntu/frontend_user
-          scp packages/frontend_admin/build/* ubuntu@34.254.237.165:/home/ubuntu/frontend_admin
+      - name: ssh_copy
+        run: | 
+          scp ${{ secrets.SSH_KEY }} packages/frontend_user/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/frontend_user
+          scp ${{ secrets.SSH_KEY }} packages/frontend_admin/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/frontend_admin
 
 
       - id: ssh_move
