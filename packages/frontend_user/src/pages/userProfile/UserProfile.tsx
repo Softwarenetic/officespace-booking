@@ -76,6 +76,7 @@ const UserProfile: React.FC = () => {
                                     value={inputs.name}
                                     onChange={handleChange}
                                     size="small"
+                                    error={inputs.name.match(/^[a-zA-Z\-]+$/) === null || inputs.name.length < 3}
                                     fullWidth
                                     required
                                     InputLabelProps={{
