@@ -45,8 +45,8 @@ jobs:
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
       - run: | 
-          sudo scp packages/frontend_user/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/html/user/build
-          sudo scp packages/frontend_admin/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/html/admin/build
+          scp packages/frontend_user/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/html/user/build
+          scp packages/frontend_admin/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/html/admin/build
 
 
       # - id: ssh_run
