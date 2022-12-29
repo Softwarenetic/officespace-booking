@@ -1,7 +1,7 @@
 name: Instance Rebooting
 on:
-  branch_protection_rule:
-    types: [created, edited]
+#   branch_protection_rule:
+#     types: [created, edited]
   push:
     branches: [ WBS-8 ]
   pull_request:
