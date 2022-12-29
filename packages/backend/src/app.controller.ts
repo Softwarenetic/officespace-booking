@@ -31,7 +31,7 @@ export class AppController {
     @UseGuards(AuthGuard(JWT_STRATEGY))
     @Get('hello')
     async hello(@Req() req: Request) {
-        return req.user;
+        return 'Hi there';
     }
 
     @Post("login")
