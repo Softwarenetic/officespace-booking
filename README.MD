@@ -4,8 +4,9 @@ How to run a project:
 
 ```yarn install```
 
+2. ```yarn prepare```
 
-2. Set environment variables.
+3. Set environment variables.
    example:
 
 ```
@@ -14,7 +15,7 @@ ADMIN_PORT=3001
 BACKEND_PORT=4000
 ```
 
-3. run ```yarn dev```
+4. run ```yarn dev```
 
 ## backend environment
 * GOOGLE_CLIENT_ID

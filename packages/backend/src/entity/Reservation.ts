@@ -1,30 +1,30 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity, Column, PrimaryGeneratedColumn, ManyToOne,
+} from 'typeorm';
 import User from './User';
 import Office from './Office';
 import Workplace from './Workplace';
 
 @Entity()
-export class Reservation {
+export default class Reservation {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column('timestamp')
-  from: string;
+    from: string;
 
   @Column('timestamp')
-  to: string;
+    to: string;
 
   @Column()
   @ManyToOne(() => User, (user) => user.id)
-  user: number;
+    user: number;
 
   @Column()
   @ManyToOne(() => Workplace, (workplace) => workplace.id)
-  workplace: number;
+    workplace: number;
 
   @Column()
   @ManyToOne(() => Office, (office) => office.id)
-  office: number;
+    office: number;
 }
-
-export default Reservation;

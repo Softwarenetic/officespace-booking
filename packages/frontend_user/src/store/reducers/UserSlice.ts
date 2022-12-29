@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../../models/IUser";
 
 interface UserState {
@@ -9,7 +9,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  user: <IUser>{},
+  user: {} as IUser,
   isLoading: false,
   sayHello: "",
   isAuthenticated: localStorage.getItem("authApp") || false,
