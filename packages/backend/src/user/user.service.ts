@@ -18,11 +18,11 @@ export class UserService {
         });
         console.log(updated);
 
-        return `Successfully updated a #${id} user`;
+        return `Successfully updated a #${updated.name} profile`;
     }
 
     async remove(id: number) {
         await AppDataSource.manager.delete(User, {id: id});
-        return `Successfully removed a #${id} user`;
+        return `Successfully removed a #${id} profile`;
     }
 }

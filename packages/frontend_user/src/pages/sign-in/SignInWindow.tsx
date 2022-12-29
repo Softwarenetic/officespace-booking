@@ -51,8 +51,7 @@ const SignInWindow: React.FC = () => {
                         const {data} = await axios.post(`${configs.baseUrl}/login`, {
                             token: credentialResponse.credential,
                         });
-                        localStorage.setItem("AuthData", JSON.stringify(data.data));
-                        dispatch(loginSuccess());
+                        dispatch(loginSuccess(data.data.access_token));
                         return data.message === "success"
                             ? navigate("/")
                             : alert(data.message);

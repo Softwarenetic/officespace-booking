@@ -6,7 +6,7 @@ import MainPage from "../pages/mainPage/MainPage";
 
 export default function ProtectedRoutes() {
 
-    const isAuthenticated = useAppSelector((state)=>state.userReducer.isAuthenticated)
+    const isAuthenticated = useAppSelector((state) => state.userReducer.accessToken)
     
 
   return  isAuthenticated ? <MainPage /> : <Navigate to="/login" />;
