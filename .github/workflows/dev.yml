@@ -41,11 +41,11 @@ jobs:
         with:
               SSH_HOST: ${{ secrets.SSH_HOST }}
               SSH_PORT: ${{ secrets.SSH_PORT }}
-              SSH_USER: ${{ secrets.SSH_USER }}
+              SSH_USER: ${{ secrets.SSH_USER_U }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
       - run: | 
-          scp packages/frontend_user/build/* ${{ steps.ssh.outputs.SERVER }}:/var/www/html/user/build
-          scp packages/frontend_admin/build/* ${{ steps.ssh.outputs.SERVER }}:/var/www/html/admin/build
+          sudo scp packages/frontend_user/build/* ${{ steps.ssh.outputs.SERVER }}:/var/www/html/user/build
+          sudo scp packages/frontend_admin/build/* ${{ steps.ssh.outputs.SERVER }}:/var/www/html/admin/build
 
 
       - id: ssh_run
