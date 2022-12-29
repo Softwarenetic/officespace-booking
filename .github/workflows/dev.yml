@@ -54,8 +54,8 @@ jobs:
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
       - run: | 
-          scp packages/frontend_user/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/frontend_user
-          scp packages/frontend_admin/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/frontend_admin
+          scp packages/frontend_user/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/frontend_user
+          scp packages/frontend_admin/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/frontend_admin
 
 
       - id: ssh_move
