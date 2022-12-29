@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ WBS-8 ]
 env:
-  GIT_REPO_1: https://github.com/
+  GIT_REPO_1: https://github.com
   GIT_REPO_2: Softwarenetic/officespace-booking.git
 jobs:
   run_app:
@@ -59,4 +59,4 @@ jobs:
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
       - run:
-          ssh ${{ steps.ssh.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone $GIT_REPO_1$GIT_REPO_2; cd officespace-booking; git checkout WBS-8; git pull; cd scripts; . build.sh" 
+          ssh ${{ steps.ssh.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone $GIT_REPO_1/$GIT_REPO_2; cd officespace-booking; git checkout WBS-8; git pull; cd scripts; . build.sh" 
