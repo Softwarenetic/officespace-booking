@@ -40,6 +40,7 @@ export class AppController {
             idToken: token,
             audience: process.env.GOOGLE_CLIENT_ID,
         });
+        console.log(ticket);
         if (!ticket) throw new BadRequestException();
         const payload = ticket.getPayload()
         const data = await this.appService.signInWithGoogle(payload);

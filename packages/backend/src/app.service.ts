@@ -26,6 +26,7 @@ export class AppService {
                     expiresIn: process.env.JWT_EXPIRE_TIME,
                 }
             ),
+            user: user,
         };
     }
 

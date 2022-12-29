@@ -10,12 +10,13 @@ import {configs} from "../../config/config";
 
 const UserProfile: React.FC = () => {
     const accessToken = useAppSelector((state) => state.userReducer.accessToken);
+    const user = useAppSelector((state) => state.userReducer.user);
 
     const [inputs, setInputs] = useState({
-        name: "",
-        surname: "",
-        position: "",
-        avatar: "",
+        name: user.name,
+        surname: user.surname,
+        position: user.position,
+        avatar: user.avatar,
     });
 
     const handleChange = (e: any) => {
@@ -27,10 +28,14 @@ const UserProfile: React.FC = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        if (valid(inputs.name)) {
+            return alert("Incorrect input");
+        }
         const res = await axios.patch(`${configs.baseUrl}/user`, Object.fromEntries(Object.entries(inputs).filter(([_, v]) => v != "")), {headers: {Authorization: `Bearer ${accessToken}`}});
         alert(res.data);
     };
 
+    const valid = (text: string) => text.match(/^[a-zA-Z\-]+$/) === null || inputs.name.length < 3;
 
     return !accessToken ? <Navigate to="/login"/> : (
         <Box>
@@ -76,7 +81,7 @@ const UserProfile: React.FC = () => {
                                     value={inputs.name}
                                     onChange={handleChange}
                                     size="small"
-                                    error={inputs.name.match(/^[a-zA-Z\-]+$/) === null || inputs.name.length < 3}
+                                    error={valid(inputs.name)}
                                     fullWidth
                                     required
                                     InputLabelProps={{
@@ -131,8 +136,7 @@ const UserProfile: React.FC = () => {
                                 </Button>
                             </Grid>
                             <Grid item xs={3} mt={2}>
-                                <Button variant="outlined" size="small"
-                                        onClick={() => alert(JSON.stringify(inputs))}>
+                                <Button variant="outlined" size="small">
                                     Cancel
                                 </Button>
                             </Grid>
