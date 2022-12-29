@@ -36,7 +36,7 @@ jobs:
       - name: Build frontend_user 
         run: cd packages/frontend_user && yarn && CI=false && yarn build
 
-      - id: ssh
+      - id: ssh_copy
         uses: invi5H/ssh-action@v1
         with:
               SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -46,4 +46,14 @@ jobs:
       - run: | 
           scp packages/frontend_user/build/* ${{ steps.ssh.outputs.SERVER }}:/var/www/html/user/build/
           scp packages/frontend_admin/build/* ${{ steps.ssh.outputs.SERVER }}:/var/www/html/admin/build/
+
+
+      - id: ssh_run
+        uses: invi5H/ssh-action@v1
+        with:
+              SSH_HOST: ${{ secrets.SSH_HOST }}
+              SSH_PORT: ${{ secrets.SSH_PORT }}
+              SSH_USER: ${{ secrets.SSH_USER_U }}
+              SSH_KEY: ${{ secrets.SSH_KEY }}
+      - run:
           ssh ${{ steps.ssh.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone ${{ secrets.GIT_REPO }}; cd officespace-booking; git checkout WBS-8; git pull; cd scripts; . build.sh" 
