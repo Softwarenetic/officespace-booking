@@ -31,30 +31,30 @@ jobs:
         with:
           node-version: 18
 
-      # - name: Build frontend_admin 
-      #   run: cd packages/frontend_admin && yarn && CI=false && yarn build
+      - name: Build frontend_admin 
+        run: cd packages/frontend_admin && yarn && CI=false && yarn build
 
-      # - name: Build frontend_user 
-      #   run: cd packages/frontend_user && yarn && CI=false && yarn build
+      - name: Build frontend_user 
+        run: cd packages/frontend_user && yarn && CI=false && yarn build
 
-      # - id: ssh_copy
-      #   uses: invi5H/ssh-action@v1
-      #   with:
-      #         SSH_HOST: ${{ secrets.SSH_HOST }}
-      #         SSH_PORT: ${{ secrets.SSH_PORT }}
-      #         SSH_USER: ${{ secrets.SSH_USER }}
-      #         SSH_KEY: ${{ secrets.SSH_KEY }}
-      # - run: | 
-      #     sudo scp packages/frontend_user/build/* ${{ secrets.SSH_USER_U }}@${{ secrets.SSH_HOST }}:/var/www/html/user/build
-      #     sudo scp packages/frontend_admin/build/* ${{ secrets.SSH_USER_U }}@${{ secrets.SSH_HOST }}:/var/www/html/admin/build
-
-
-      - id: ssh_run
+      - id: ssh_copy
         uses: invi5H/ssh-action@v1
         with:
               SSH_HOST: ${{ secrets.SSH_HOST }}
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run:
-          ssh ${{ steps.ssh.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone https://github.com/Softwarenetic/officespace-booking.git; cd officespace-booking; git checkout WBS-8; git pull; cd scripts; . build.sh" 
+      - run: | 
+          sudo scp packages/frontend_user/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/html/user/build
+          sudo scp packages/frontend_admin/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/html/admin/build
+
+
+      # - id: ssh_run
+      #   uses: invi5H/ssh-action@v1
+      #   with:
+      #         SSH_HOST: ${{ secrets.SSH_HOST }}
+      #         SSH_PORT: ${{ secrets.SSH_PORT }}
+      #         SSH_USER: ${{ secrets.SSH_USER }}
+      #         SSH_KEY: ${{ secrets.SSH_KEY }}
+      # - run:
+      #     ssh ${{ steps.ssh.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone https://github.com/Softwarenetic/officespace-booking.git; cd officespace-booking; git checkout WBS-8; git pull; cd scripts; . build.sh" 
