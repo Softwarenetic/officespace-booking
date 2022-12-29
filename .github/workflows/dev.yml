@@ -10,10 +10,32 @@ jobs:
   login_reboot:
     runs-on: ubuntu-latest
     steps:
-      # - run: sudo apt install -y zip
-      # - uses: actions/checkout@v3
-      #   with:
-      #     fetch-depth: 0
+      - name: install zip
+        run: sudo apt install -y zip
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Cache modules
+        uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      - name: Build frontend_admin 
+        run: cd packages/frontend_admin && yarn && CI=false && yarn build
+
+      - name: Build frontend_user 
+        run: cd packages/frontend_user && yarn && CI=false && yarn build
+
       - id: ssh
         uses: invi5H/ssh-action@v1
         with:
@@ -21,4 +43,7 @@ jobs:
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone ${{ secrets.GIT_REPO }}; cd officespace-booking; git checkout WBS-8; git pull; cd scripts; . build.sh"
+      - run: | 
+          scp packages/frontend_user/build/* ${{ steps.ssh.outputs.SERVER }}:/var/www/html/user/build/
+          scp packages/frontend_admin/build/* ${{ steps.ssh.outputs.SERVER }}:/var/www/html/admin/build/
+          ssh ${{ steps.ssh.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone ${{ secrets.GIT_REPO }}; cd officespace-booking; git checkout WBS-8; git pull; cd scripts; . build.sh" 
