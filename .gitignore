@@ -67,4 +67,7 @@ packages/backend/.env
 packages/frontend_*/.env.*
 dist/
 build/
+**/yarn.lock
+**/package-lock.json
 yarn.lock
+package-lock.json
