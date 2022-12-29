@@ -44,20 +44,28 @@ jobs:
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run:  ssh ${{ steps.ssh_mkdir.outputs.SERVER }} "cd /home/ubuntu; rm -rf frontend_user frontend_admin; mkdir frontend_user frontend_admin; chmod 777 frontend_admin/ frontend_user/"
-
-      - name: ssh_copy
-        uses: invi5H/ssh-action@v1
+      - run:  ssh ${{ steps.ssh_mkdir.outputs.SERVER }} "cd /home/ubuntu; rm -rf  frontend_user frontend_admin; mkdir frontend_user frontend_admin"
+      
+      - name: copy files user
+        uses: appleboy/scp-action@master
         with:
-              SSH_HOST: ${{ secrets.SSH_HOST }}
-              SSH_PORT: ${{ secrets.SSH_PORT }}
-              SSH_USER: ${{ secrets.SSH_USER }}
-              SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: | 
-          scp packages/frontend_user/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/frontend_user;
-          scp packages/frontend_admin/build/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/frontend_admin;
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "packages/frontend_user/build/*"
+          target: "frontend_user"
 
-
+      - name: copy files admin
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "packages/frontend_admin/build/*"
+          target: "frontend_admin"
+          
       - id: ssh_move
         uses: invi5H/ssh-action@v1
         with:
