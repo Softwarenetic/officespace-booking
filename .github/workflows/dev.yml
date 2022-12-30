@@ -36,7 +36,7 @@ jobs:
 
       - name: Build frontend_user 
         run: cd packages/frontend_user && yarn && CI=false && yarn build
-      
+
       - id: ssh_mkdir
         uses: appleboy/ssh-action@v0.1.6
         with:
