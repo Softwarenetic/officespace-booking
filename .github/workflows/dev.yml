@@ -33,10 +33,10 @@ jobs:
           node-version: 18
 
       - name: Build frontend_admin 
-        run: cd packages/frontend_admin && yarn && CI=false && yarn build
+        run: cd packages/frontend_admin && npm i && CI=false && yarn build
 
       - name: Build frontend_user 
-        run: cd packages/frontend_user && yarn && CI=false && yarn build
+        run: cd packages/frontend_user && npm i && CI=false && yarn build
 
       - id: ssh_mkdir
         uses: appleboy/ssh-action@v0.1.6
