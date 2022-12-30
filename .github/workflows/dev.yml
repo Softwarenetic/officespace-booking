@@ -35,8 +35,16 @@ jobs:
       - name: Build frontend_admin 
         run: cd packages/frontend_admin && yarn && CI=false && yarn build
 
+      - name: create .env for frontend_user
+        run: echo ${{ secrets.ENV_FRONT_USER }} >> packages/frontend_user/.env
+
       - name: Build frontend_user 
         run: cd packages/frontend_user && yarn && CI=false && yarn build
+
+      - name: create .env for backend
+        run: echo ${{ secrets.ENV_BACK }} >> packages/backend/.env
+
+
 
       - id: ssh_mkdir
         uses: appleboy/ssh-action@v0.1.6
@@ -47,8 +55,8 @@ jobs:
               key: ${{ secrets.SSH_KEY }}
               script: |
                 cd /home/ubuntu;
-                rm -rf  frontend_user frontend_admin
-                mkdir frontend_user frontend_admin
+                rm -rf  frontend_user frontend_admin envs
+                mkdir frontend_user frontend_admin envs
       
       - name: copy files user
         uses: appleboy/scp-action@master
@@ -69,7 +77,15 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           source: "packages/frontend_admin/build/*"
           target: "frontend_admin"
-          
+      - name: copy env backend
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "packages/backend/.env"
+          target: "envs"
       - id: ssh_move
         uses: invi5H/ssh-action@v1
         with:
@@ -86,4 +102,5 @@ jobs:
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY; cd officespace-booking; git checkout $BRANCH; git pull; cd scripts; . build.sh" 
+      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY; cd officespace-booking; git checkout $BRANCH; git pull; cd ../envs; mv .env ../officespace-booking/packages/backend/; cd ../officespace-booking/scripts; . build.sh" 
+      
