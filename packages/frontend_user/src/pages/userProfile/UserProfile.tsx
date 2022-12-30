@@ -1,16 +1,26 @@
 import {Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./UserProfile.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
-import {useAppSelector} from "../../hooks/redux";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {Navigate} from "react-router-dom";
 import axios from "axios";
 import {configs} from "../../config/config";
+import {loginSuccess} from "../../store/reducers/UserSlice";
 
 const UserProfile: React.FC = () => {
-    const accessToken = useAppSelector((state) => state.userReducer.accessToken);
-    const user = useAppSelector((state) => state.userReducer.user);
+    const {accessToken, user} = useAppSelector((state) => state.userReducer);
+    const dispatch = useAppDispatch();
+
+    const updateProfile = () => {
+        axios.get(`${configs.baseUrl}/user`, {headers: {Authorization: `Bearer ${accessToken}`}}).then((res) => {
+            dispatch(loginSuccess(res.data));
+        })
+    }
+    useEffect(() => {
+        updateProfile()
+    }, [])
 
     const [inputs, setInputs] = useState({
         name: user.name,
@@ -138,6 +148,11 @@ const UserProfile: React.FC = () => {
                             <Grid item xs={3} mt={2}>
                                 <Button variant="outlined" size="small">
                                     Cancel
+                                </Button>
+                            </Grid>
+                            <Grid item xs={3} mt={2} color="error">
+                                <Button variant="outlined" size="small">
+                                    Delete profile
                                 </Button>
                             </Grid>
                         </Grid>

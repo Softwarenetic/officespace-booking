@@ -20,10 +20,8 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         loginSuccess(state, action) {
-            localStorage.setItem("accessToken", action.payload.access_token);
-            localStorage.setItem("user", JSON.stringify(action.payload.user));
-            state.accessToken = action.payload.access_token;
-            state.user = action.payload.user;
+            localStorage.setItem("accessToken", action.payload);
+            state.accessToken = action.payload;
         },
         logoutSuccess(state) {
             localStorage.removeItem("accessToken");
@@ -31,6 +29,9 @@ export const userSlice = createSlice({
             state.accessToken = "";
             state.user = <IUser>{};
         },
+        setProfile(state, action) {
+            state.user = <IUser>action.payload;
+        }
     },
 });
 
