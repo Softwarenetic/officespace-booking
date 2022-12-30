@@ -3,9 +3,9 @@ on:
 #   branch_protection_rule:
 #     types: [created, edited]
   push:
-    branches: [ WBS-8 ]
+    branches: [ dev ]
   pull_request:
-    branches: [ WBS-8 ]
+    branches: [ dev ]
 
 jobs:
   run_app:
