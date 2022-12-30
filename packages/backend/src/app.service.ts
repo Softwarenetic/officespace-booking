@@ -29,9 +29,13 @@ export default class AppService {
   }
 
   async signInWithGoogle(data: TokenPayload) {
-    if (!data) throw new BadRequestException();
+    if (!data) {
+      throw new BadRequestException();
+    }
     const user = (await AppDataSource.manager.findOneBy(User, { email: data.email }));
-    if (user) return this.login(user);
+    if (user) {
+      return this.login(user);
+    }
 
     const companyNameFromEmailRegex = /@(.*?)\./;
 

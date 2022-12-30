@@ -20,6 +20,9 @@ module.exports = {
   "ignorePatterns": ["dist", "node_modules", "examples", "scripts", "build"],
   "rules": {
     "class-methods-use-this": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "semi": ["error", "always"],
+    "curly": ["error", "all"],
+    "brace-style": ["error", "stroustrup"]
   }
 }
