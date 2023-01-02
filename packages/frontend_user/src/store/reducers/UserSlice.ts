@@ -9,7 +9,12 @@ interface UserState {
 }
 
 const initialState: UserState = {
-    user: JSON.parse(localStorage.getItem("user")!) || <IUser>{},
+    user: JSON.parse(localStorage.getItem("user")!) || <IUser>{
+        name: "",
+        surname: "",
+        position: "",
+        avatar: ""
+    },
     isLoading: false,
     sayHello: "",
     accessToken: localStorage.getItem("accessToken") || false,
@@ -30,10 +35,10 @@ export const userSlice = createSlice({
             state.user = <IUser>{};
         },
         setProfile(state, action) {
-            state.user = <IUser>action.payload;
+            state.user = action.payload;
         }
     },
 });
 
-export const {loginSuccess, logoutSuccess} = userSlice.actions
+export const {loginSuccess, logoutSuccess, setProfile} = userSlice.actions
 export default userSlice.reducer;

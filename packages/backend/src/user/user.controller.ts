@@ -1,4 +1,4 @@
-import {Controller, Get, Patch, Delete, UseGuards, Req, Body} from '@nestjs/common';
+import {Controller, Get, Patch, Delete, UseGuards, Req, Body, Post, UploadedFile} from '@nestjs/common';
 import {UserService} from './user.service';
 import {AuthGuard} from "@nestjs/passport";
 import {JWT_STRATEGY} from "../common/strategy/jwt.strategy";
@@ -8,6 +8,12 @@ import User from "../entity/User";
 @Controller('user')
 export class UserController {
     constructor(private readonly userService: UserService) {
+    }
+
+    @UseGuards(AuthGuard(JWT_STRATEGY))
+    @Post("/avatar")
+    post(@UploadedFile() file, @Body() user: User) {
+        return user.avatar;
     }
 
     @UseGuards(AuthGuard(JWT_STRATEGY))
