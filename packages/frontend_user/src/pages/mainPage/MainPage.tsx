@@ -1,22 +1,31 @@
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import {Button} from "@mui/material";
-import { logoutSuccess} from "../../store/reducers/UserSlice";
-import {useNavigate} from "react-router-dom";
-import {useAppDispatch} from "../../hooks/redux";
+import image from '../../assets/image.png';
+import './MainPage.scss';
+import BasicTable from '../../components/table/Table';
+import { Box } from '@mui/material';
+import DatePicker from '../../components/datePicker/DatePicker';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const MainPage: React.FC = () => {
-    const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+    
+    
+    
     return (
-        <Box>
-            <Typography variant="h4">Main page</Typography>
-            <Button value={"Logout"} onClick={() => {
-                dispatch(logoutSuccess());
-                navigate("/");
-            }}>Logout</Button>
+        <Box className='main_container'>
+            <Box className='user_icon'>
+            <AccountCircleIcon color="disabled" sx={{ fontSize: 50 }} />
+            </Box>
+            <Box>
+            <img src={image} className="image" alt="picture" />
+            </Box>
+            <Box className='date_container'>
+            <DatePicker/>
+            </Box>
+            <Box>
+            <BasicTable/>
+            </Box>
         </Box>
-    );
+    
+  );
 };
 
 export default MainPage;
