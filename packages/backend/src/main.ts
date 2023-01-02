@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import AppModule from './app.module';
 import AppDataSource from './config/typeorm.config';
 import 'reflect-metadata';
+require('dotenv').config();
 
 AppDataSource.initialize()
   .then(() => {
