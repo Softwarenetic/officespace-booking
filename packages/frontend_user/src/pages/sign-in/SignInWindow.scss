@@ -1,4 +1,23 @@
 
-.signPicture{
+.main_container {
+  display: flex;
   height: 100vh;
 }
+.sign_container{
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ height: 100%;
+}
+.sign_btn{
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  
+}
+img {
+  height: 100%;
+}
+
+

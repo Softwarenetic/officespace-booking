@@ -34,36 +34,32 @@ const SignInWindow: React.FC = () => {
   dispatch(userSlice.actions.loginSuccess);
 
   return (
-    <Grid container className="signPicture">
-      <Grid item xs={6}>
-        <img src={picture} alt="signin page picture" />
-      </Grid>
-      <Grid item xs={4}>
-        <Grid container spacing={5} direction="column" alignItems="center" justifyContent="center" minHeight={'100vh'}>
-          <Grid>
-            <Box>
-              <Typography variant="h4"> Workplace Booking System </Typography>
-            </Box>
-          </Grid>
-          <Grid mt={6}>
-            <GoogleOAuthProvider clientId={configs.googleClientId}>
-              <GoogleLogin
-                onSuccess={async (credentialResponse) => {
-                  console.log(credentialResponse);
-                  const { data } = await axios.post(`${configs.baseUrl}/login`, {
-                    token: credentialResponse.credential,
-                  });
-                  localStorage.setItem('AuthData', JSON.stringify(data.data));
-                  dispatch(loginSuccess());
-                  return data.message === 'success' ? navigate('/') : alert(data.message);
-                }}
-                onError={onFailure}
-              />
-            </GoogleOAuthProvider>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
+    <Box className="main_container">
+      <Box className='signPicture'>
+        <img src={picture} alt="picture" />
+      </Box>
+      <Box className="sign_container">
+        <Box className='logo_container'>
+          <Typography variant="h4"> Workplace Booking System </Typography>
+          <Box className='sign_btn'>
+          <GoogleOAuthProvider clientId={configs.googleClientId} >
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                console.log(credentialResponse);
+                const { data } = await axios.post(`${configs.baseUrl}/login`, {
+                  token: credentialResponse.credential,
+                });
+                localStorage.setItem('AuthData', JSON.stringify(data.data));
+                dispatch(loginSuccess());
+                return data.message === 'success' ? navigate('/') : alert(data.message);
+              }}
+              onError={onFailure}
+            />
+          </GoogleOAuthProvider>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
