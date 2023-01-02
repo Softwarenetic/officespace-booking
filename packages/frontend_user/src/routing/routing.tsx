@@ -1,11 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import { useAppSelector } from "../hooks/redux";
-import MainPage from "../pages/mainPage/MainPage";
 import NotFound from "../pages/NotFound/NotFound";
 import RootLayout from "../pages/rootLayout/RootLayout";
 import SignInWindow from "../pages/sign-in/SignInWindow";
 import UserProfile from "../pages/userProfile/UserProfile";
-import UserSettings from "../pages/userSettings/UserSettings";
 import ProtectedRoutes from "./protectedRoutes";
 
 export const routing = createBrowserRouter([

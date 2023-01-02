@@ -1,37 +1,35 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class User {
+export default class User {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({
     length: 20,
   })
-  name: string;
+    name: string;
 
   @Column({
     length: 24,
   })
-  surname: string;
+    surname: string;
 
   @Column({
     length: 20,
   })
-  company: string;
+    company: string;
 
   @Column({
     length: 20,
   })
-  position: string;
+    position: string;
 
   @Column({
     length: 50,
   })
-  email: string;
+    email: string;
 
   @Column('text')
-  avatar: string;
+    avatar: string;
 }
-
-export default User;

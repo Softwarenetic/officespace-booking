@@ -1,26 +1,24 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum WorkplaceType {
-  TABLE = "Table",
-  ROOM = "Meeting room",
+  TABLE = 'Table',
+  ROOM = 'Meeting room',
 }
 
 @Entity()
-export class Workplace {
+export default class Workplace {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: WorkplaceType,
-    default: WorkplaceType.TABLE
+    default: WorkplaceType.TABLE,
   })
-  type: WorkplaceType;
+    type: WorkplaceType;
 
   @Column({
     length: 20,
   })
-  name: string;
+    name: string;
 }
-
-export default Workplace;

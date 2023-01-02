@@ -9,14 +9,14 @@ interface UserState {
 }
 
 const initialState: UserState = {
-    user: JSON.parse(localStorage.getItem("user")!) || <IUser>{
+    isLoading: false,
+    sayHello: "",
+    user: JSON.parse(localStorage.getItem("user")!) || {
         name: "",
         surname: "",
         position: "",
         avatar: ""
-    },
-    isLoading: false,
-    sayHello: "",
+    } as IUser,
     accessToken: localStorage.getItem("accessToken") || false,
 };
 

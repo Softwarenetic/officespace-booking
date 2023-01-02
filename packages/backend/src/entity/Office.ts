@@ -1,25 +1,23 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Office {
+export default class Office {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({
     length: 20,
   })
-  name: string;
+    name: string;
 
   @Column({
     length: 100,
   })
-  address: string;
+    address: string;
 
   @Column()
-  floor: number;
+    floor: number;
 
   @Column('text')
-  svg: string;
+    svg: string;
 }
-
-export default Office;
