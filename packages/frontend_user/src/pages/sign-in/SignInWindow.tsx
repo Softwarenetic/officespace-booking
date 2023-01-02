@@ -1,6 +1,4 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import React, { useEffect } from 'react';
 import { gapi } from 'gapi-script';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
@@ -35,12 +33,16 @@ const SignInWindow: React.FC = () => {
 
   return (
     <Box className="main_container">
+        <Box className='polygon_1 triangle_3'></Box>
+        <Box className="triangle_1"></Box>
+        <Box className="triangle_2"></Box>
+        <Box className='triangle_3'></Box>
       <Box className='signPicture'>
         <img src={picture} alt="picture" />
       </Box>
       <Box className="sign_container">
         <Box className='logo_container'>
-          <Typography variant="h4"> Workplace Booking System </Typography>
+          <p className='title'> Workplace Booking System </p>
           <Box className='sign_btn'>
           <GoogleOAuthProvider clientId={configs.googleClientId} >
             <GoogleLogin
