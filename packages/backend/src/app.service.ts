@@ -16,14 +16,14 @@ export default class AppService {
   async login(user: User) {
     return {
       access_token: this.jwtService.sign(
-          {
-            id: user.id,
-            email: user.email,
-          },
-          {
-            secret: process.env.JWT_SECRET,
-            expiresIn: process.env.JWT_EXPIRE_TIME,
-          },
+        {
+          id: user.id,
+          email: user.email,
+        },
+        {
+          secret: process.env.JWT_SECRET,
+          expiresIn: process.env.JWT_EXPIRE_TIME,
+        },
       ),
     };
   }

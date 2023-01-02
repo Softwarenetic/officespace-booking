@@ -20,7 +20,7 @@ const UserProfile: React.FC = () => {
     }
     useEffect(() => {
         updateProfile()
-    }, [])
+    })
 
     const [inputs, setInputs] = useState({
         name: user.name,
@@ -41,11 +41,11 @@ const UserProfile: React.FC = () => {
         if (valid(inputs.name)) {
             return alert("Incorrect input");
         }
-        const res = await axios.patch(`${configs.baseUrl}/user`, Object.fromEntries(Object.entries(inputs).filter(([_, v]) => v != "")), {headers: {Authorization: `Bearer ${accessToken}`}});
+        const res = await axios.patch(`${configs.baseUrl}/user`, Object.fromEntries(Object.entries(inputs).filter(([_, v]) => v !== "")), {headers: {Authorization: `Bearer ${accessToken}`}});
         alert(res.data);
     };
 
-    const valid = (text: string) => text.match(/^[a-zA-Z\-]+$/) === null || inputs.name.length < 3;
+    const valid = (text: string) => text.match(/^[a-zA-Z-]+$/) === null || inputs.name.length < 3;
 
     return !accessToken ? <Navigate to="/login"/> : (
         <Box>
