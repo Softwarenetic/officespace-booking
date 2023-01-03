@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from 'google-auth-library';
-import AppDataSource from './config/typeorm.config';
+import { DataSource } from 'typeorm';
+import { InjectDataSource } from '@nestjs/typeorm';
 import User from './entity/User';
 
 @Injectable()
@@ -10,7 +11,7 @@ export default class AppService {
     return 'Hello World!';
   }
 
-  constructor(private jwtService: JwtService) {
+  constructor(@InjectDataSource() private dataSource: DataSource, private jwtService: JwtService) {
   }
 
   async login(user: User) {
@@ -32,7 +33,7 @@ export default class AppService {
     if (!data) {
       throw new BadRequestException();
     }
-    const user = (await AppDataSource.manager.findOneBy(User, { email: data.email }));
+    const user = (await this.dataSource.manager.findOneBy(User, { email: data.email }));
     if (user) {
       return this.login(user);
     }
@@ -47,7 +48,7 @@ export default class AppService {
     newUser.position = '-';
     newUser.avatar = data.picture;
 
-    await AppDataSource.manager.save(newUser);
+    await this.dataSource.manager.save(newUser);
     return this.login(newUser);
   }
 }

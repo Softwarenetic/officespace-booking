@@ -5,9 +5,10 @@ import AppController from './app.controller';
 import AppService from './app.service';
 import { JwtStrategy } from './common/strategy/jwt.strategy';
 import UserModule from './user/user.module';
+import TypeormConfig from './config/typeorm.config';
 
 @Module({
-  imports: [UserModule, ConfigModule.forRoot()],
+  imports: [ConfigModule.forRoot(), TypeormConfig, UserModule],
   controllers: [AppController],
   providers: [AppService, JwtService, JwtStrategy],
 })
