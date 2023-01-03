@@ -25,7 +25,7 @@ export default class UserController {
   @Post('avatar')
   @UseInterceptors(FileInterceptor('avatar'))
   uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req: Request) {
-    return this.userService.uploadFile(file.buffer, `${file.fieldname}.png`, (req.user as User).id);
+    return this.userService.uploadFile(file.buffer, `${Math.random() * Date.now()}.${file.mimetype.split('/').at(-1)}`, (req.user as User).id);
   }
 
   @UseGuards(AuthGuard(JWT_STRATEGY))
