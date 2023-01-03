@@ -1,17 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import User from '../entity/User';
-import AppDataSource from '../config/typeorm.config';
 
 @Injectable()
 export default class UserService {
+  constructor(
+    @InjectRepository(User)
+    private repository: Repository<User>,
+  ) {
+  }
+
   async update(id: number, user: User) {
     const { email, ...updatedUser } = user;
-    await AppDataSource.manager.update(User, { id }, updatedUser);
+    await this.repository.update({ id }, updatedUser);
     return `Successfully updated a #${id} user, email ${email}`;
   }
 
   async remove(id: number) {
-    await AppDataSource.manager.delete(User, { id });
+    await this.repository.delete({ id });
     return `Successfully removed a #${id} user`;
   }
 }
