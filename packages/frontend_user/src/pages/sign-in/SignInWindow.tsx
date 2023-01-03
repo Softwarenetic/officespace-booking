@@ -25,7 +25,7 @@ const SignInWindow: React.FC = () => {
     gapi.load('client:auth2', initClient);
   });
 
-  const onFailure = (): void => {
+  const onFailure = () => {
     console.log('failed');
   };
 
@@ -39,12 +39,12 @@ const SignInWindow: React.FC = () => {
         <Box className='triangle_3'></Box>
       <Box className='signPicture'>
         <img src={picture} alt="picture" />
-      </Box>
+     </Box>
       <Box className="sign_container">
         <Box className='logo_container'>
           <p className='title'> Workplace Booking System </p>
           <Box className='sign_btn'>
-          <GoogleOAuthProvider clientId={configs.googleClientId} >
+          <GoogleOAuthProvider clientId={configs.googleClientId}  >
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
                 console.log(credentialResponse);
@@ -56,7 +56,7 @@ const SignInWindow: React.FC = () => {
                 return data.message === 'success' ? navigate('/') : alert(data.message);
               }}
               onError={onFailure}
-            />
+             />
           </GoogleOAuthProvider>
           </Box>
         </Box>
