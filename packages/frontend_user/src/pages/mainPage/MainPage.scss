@@ -1,19 +1,28 @@
-.image{
-    width: 750px;
+.image_container {
+  width: 60%;
+  margin-top: 30px;
+}
+.image_container > img {
     height: 400px;
-}
-.date_container{
-    width: 25%;
-}
-.main_container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    
-}
-.user_icon{
     width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 50px;
+}
+.date_container {
+  height: 38%;
+  margin-top: 80px;
+}
+.main_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-left: 40px;
+}
+
+.user_icon {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.table-item{
+    margin-right: auto;
+    margin-left: 5%;
 }

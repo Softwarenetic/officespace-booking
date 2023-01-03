@@ -1,14 +1,14 @@
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
-import { useState } from "react";
-import "./UserProfile.scss";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import PersonIcon from "@mui/icons-material/Person";
+import { Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
+import './UserProfile.scss';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonIcon from '@mui/icons-material/Person';
 
 const UserProfile: React.FC = () => {
   const [inputs, setInputs] = useState({
-    userName: "",
-    email: "",
-    position: "",
+    userName: '',
+    email: '',
+    position: '',
   });
   const handleChange = (e: any) => {
     setInputs((prevState) => ({
@@ -67,7 +67,7 @@ const UserProfile: React.FC = () => {
                   size="small"
                   fullWidth
                   InputLabelProps={{
-                    sx: {"&.Mui-focused": { color: "text.secondary" } },
+                    sx: { '&.Mui-focused': { color: 'text.secondary' } },
                   }}
                 />
               </Grid>
@@ -82,7 +82,7 @@ const UserProfile: React.FC = () => {
                   size="small"
                   fullWidth
                   InputLabelProps={{
-                    sx: {"&.Mui-focused": { color: "text.secondary" } },
+                    sx: { '&.Mui-focused': { color: 'text.secondary' } },
                   }}
                 />
               </Grid>
@@ -97,7 +97,7 @@ const UserProfile: React.FC = () => {
                   size="small"
                   fullWidth
                   InputLabelProps={{
-                    sx: {"&.Mui-focused": { color: "text.secondary" } },
+                    sx: { '&.Mui-focused': { color: 'text.secondary' } },
                   }}
                 />
               </Grid>
@@ -108,12 +108,7 @@ const UserProfile: React.FC = () => {
                 <Typography variant="subtitle2">Softwarenetic</Typography>
               </Grid>
               <Grid item xs={3} mt={2}>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  fullWidth
-                  size="small"
-                >
+                <Button variant="contained" type="submit" fullWidth size="small">
                   Save changes
                 </Button>
               </Grid>

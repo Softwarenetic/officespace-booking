@@ -5,39 +5,56 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
-import './Table.scss'
+import { Box, Button, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import './Table.scss';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Padding } from '@mui/icons-material';
 
+function createData(name: string, hours: string, editing: string) {
+  return { name, hours, editing };
+}
 
+const rows = [
+  createData('Name', '09:00-10:15', 'you can edit this'),
+  createData('Name', '09:00-10:15', 'you can edit this'),
+  createData('Name', '09:00-10:15', 'you can edit this'),
   
-  function createData(
-    name: string,
-    hours: string,
-    editing: string,
-    
-  ) {
-    return { name, hours, editing };
-  }
-  
-  const rows = [
-    createData('Name', '09:00-10:15', 'you can edit this'),
-    createData('Name', '09:00-10:15', 'you can edit this'),
-    createData('Name', '09:00-10:15', 'you can edit this'),
-    createData('Name', '09:00-10:15', 'you can edit this'),
-    createData('Name', '09:00-10:15', 'you can edit this'),
-  ];
+];
 
- function BasicTable() {
+const useStyles = makeStyles({
+  tableRow: {
+   height:30
+  },
+  tableCell: {
     
-    
+  },
+ 
+});
+function BasicTable() {
+  const classes = useStyles();
+
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ width: '700px' }} aria-label="simple table">
+      <Typography variant="subtitle1" display="block" sx={{ mx: 2 }} className='font'>
+        Meeting room #1
+      </Typography>
+      <KeyboardArrowLeftIcon color="secondary" sx={{ fontSize: 25, mx: 2 }} />
+      <KeyboardArrowRightIcon color="secondary" sx={{ fontSize: 25 }} />
+      <Table sx={{ width: '750px' }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell><b>Person</b></TableCell>
-            <TableCell><b>Hours</b></TableCell>
-            <TableCell><b>Editing</b></TableCell>
+            <TableCell className={classes.tableCell}>
+              <b>Person</b>
+            </TableCell>
+            <TableCell className={classes.tableCell}>
+              <b>Hours</b>
+            </TableCell>
+            <TableCell className={classes.tableCell}>
+              <b>Editing</b>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -45,19 +62,25 @@ import './Table.scss'
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              
+              className={classes.tableRow}
             >
-              <TableCell component="th" scope="row">
-                {row.name}
+              <TableCell className={classes.tableCell} sx={{ display:'flex',alignItems:'center' }} >
+                <AccountCircleIcon color="disabled" sx={{ fontSize: 25, mr: '5px' }} />
+                <span>{row.name}</span>
               </TableCell>
-              <TableCell >{row.hours}</TableCell>
-              <TableCell >{row.editing}</TableCell>
+              <TableCell className={classes.tableCell}>{row.hours}</TableCell>
+              <TableCell className={classes.tableCell}>{row.editing}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <Button variant='contained' size='small' className='book_btn'>Book meeting room</Button>
+      <Box className="book_btn">
+        <Button variant="contained" size="small"  >
+          <span className='font'>Book meeting</span>
+          
+        </Button>
+      </Box>
     </TableContainer>
   );
 }
-export default BasicTable
+export default BasicTable;

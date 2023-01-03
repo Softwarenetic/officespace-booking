@@ -1,41 +1,62 @@
-
 import Box from '@mui/material/Box';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux';
-import "./SideAppBar.scss"
+import './SideAppBar.scss';
 import LogoutIcon from '@mui/icons-material/Logout';
-import StarIcon from '@mui/icons-material/Star';
 import { grey } from '@mui/material/colors';
-
+import HomeIcon from '@mui/icons-material/Home';
 import { createTheme } from '@mui/material/styles';
+import { logoutSuccess } from '../../store/reducers/UserSlice';
+import { Typography } from '@mui/material';
 
 export const theme = createTheme({
   palette: {
-    secondary:{
-      main: grey[500]
+    secondary: {
+      main: grey[500],
+    },
+  },
+  components: {
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          margin: 0,
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          margin: 0,
+        },
+      },
     },
   },
 });
 
-
 function SideAppBar() {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   return (
     <Box className="container_nav">
-      <Box className='logo'>
-        <span>Logo</span>
+      <Box className="logo">
+        <Typography variant="body1">Logo</Typography>
       </Box>
-      <Box  className='btn office'>
-        <StarIcon color='secondary' sx={{ fontSize: 20 }} style={{paddingTop:'10px'}}/>
-      <NavLink className='btn' to={'/'}>Office</NavLink>
+      <Box className="btn office">
+        <HomeIcon color="secondary" sx={{ fontSize: 20 }} />
+        <Box>
+          <NavLink className="btn" to={'/'}>
+            Office
+          </NavLink>
+        </Box>
       </Box>
-      <Box className='btn out'>
-      <LogoutIcon color='secondary' sx={{ fontSize: 20 }} />
-      <NavLink className='btn' to={'/settings'}>Log out</NavLink>
+      <Box className="btn out">
+        <LogoutIcon color="secondary" sx={{ fontSize: 20 }} />
+        <Box>
+          <NavLink className="btn" to={'/login'} onClick={() => dispatch(logoutSuccess())}>
+            Log out
+          </NavLink>
+        </Box>
       </Box>
-
     </Box>
   );
 }
