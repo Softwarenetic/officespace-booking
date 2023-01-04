@@ -6,10 +6,10 @@ import axios from 'axios';
 import './SignInWindow.scss';
 import { configs } from '../../config/config';
 import { useAppDispatch } from '../../hooks/redux';
-import { userSlice } from '../../store/reducers/UserSlice';
 import { useNavigate } from 'react-router-dom';
 import { loginSuccess } from '../../store/reducers/UserSlice';
 import picture from '../../assets/61f134d31a80c10b8052cbb30c7a46ae.jpg';
+import { setAuhtToken } from '../../config/setup';
 
 const SignInWindow: React.FC = () => {
   const navigate = useNavigate();
@@ -29,8 +29,6 @@ const SignInWindow: React.FC = () => {
     console.log('failed');
   };
 
-  dispatch(userSlice.actions.loginSuccess);
-
   return (
     <Box className="main_container">
         <Box className='polygon_1 triangle_3'></Box>
@@ -38,7 +36,7 @@ const SignInWindow: React.FC = () => {
         <Box className="triangle_2"></Box>
         <Box className='triangle_3'></Box>
       <Box className='signPicture'>
-        <img src={picture} alt="picture" />
+        <img src={picture} alt="office" />
      </Box>
       <Box className="sign_container">
         <Box className='logo_container'>
@@ -47,11 +45,10 @@ const SignInWindow: React.FC = () => {
           <GoogleOAuthProvider clientId={configs.googleClientId}  >
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
-                console.log(credentialResponse);
-                const { data } = await axios.post(`${configs.baseUrl}/login`, {
+                const { data } = await axios.post('/login', {
                   token: credentialResponse.credential,
                 });
-                localStorage.setItem('AuthData', JSON.stringify(data.data));
+                setAuhtToken(data.data && data.data.access_token);
                 dispatch(loginSuccess());
                 return data.message === 'success' ? navigate('/') : alert(data.message);
               }}

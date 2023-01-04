@@ -1,53 +1,38 @@
 import {Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import "./UserProfile.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {Navigate} from "react-router-dom";
 import axios from "axios";
-import {configs} from "../../config/config";
-import {loginSuccess} from "../../store/reducers/UserSlice";
+import { setName, setPosition, setProfile, setSurname } from "../../store/reducers/ProfileSlice";
+
 
 const UserProfile: React.FC = () => {
-    const {accessToken, user} = useAppSelector((state) => state.userReducer);
+    const {name,position,surname } = useAppSelector((state) => state.profileReducer);
     const dispatch = useAppDispatch();
 
-    const updateProfile = () => {
-        axios.get(`${configs.baseUrl}/user`, {headers: {Authorization: `Bearer ${accessToken}`}}).then((res) => {
-            dispatch(loginSuccess(res.data));
+    const initProfile = () => {
+        axios.get(`/user`).then((res) => {
+            dispatch(setProfile(res.data));
         })
     }
     useEffect(() => {
-        updateProfile()
-    })
-
-    const [inputs, setInputs] = useState({
-        name: user.name,
-        surname: user.surname,
-        position: user.position,
-        avatar: user.avatar,
-    });
-
-    const handleChange = (e: any) => {
-        setInputs((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
-    };
+        initProfile()
+    }, [])
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        if (valid(inputs.name)) {
+        if (valid(name) && valid(surname) && valid(position)) {
             return alert("Incorrect input");
         }
-        const res = await axios.patch(`${configs.baseUrl}/user`, Object.fromEntries(Object.entries(inputs).filter(([_, v]) => v !== "")), {headers: {Authorization: `Bearer ${accessToken}`}});
+        const res = await axios.patch(`/user`, {name, surname, position});
         alert(res.data);
     };
 
-    const valid = (text: string) => text.match(/^[a-zA-Z-]+$/) === null || inputs.name.length < 3;
+    const valid = (text: string) => text.match(/^[a-zA-Z-]+$/) === null && text.length > 2;
 
-    return !accessToken ? <Navigate to="/login"/> : (
+    return (
         <Box>
             <Typography variant="h5" mb={3}>
                 Settings
@@ -68,7 +53,6 @@ const UserProfile: React.FC = () => {
 
                 <Paper className="grid_2">
                     <Typography variant="subtitle1">Avatar</Typography>
-
                     <Grid container mb={1}>
                         <Grid item xs={1}>
                             <AccountCircleIcon color="disabled" sx={{fontSize: 50}}/>
@@ -88,10 +72,10 @@ const UserProfile: React.FC = () => {
                                     name="name"
                                     variant="outlined"
                                     type="text"
-                                    value={inputs.name}
-                                    onChange={handleChange}
+                                    value={name}
+                                    onChange={(e)=>dispatch(setName(e.target.value))}
                                     size="small"
-                                    error={valid(inputs.name)}
+                                    error={valid(name)}
                                     fullWidth
                                     required
                                     InputLabelProps={{
@@ -105,8 +89,9 @@ const UserProfile: React.FC = () => {
                                     name="surname"
                                     variant="outlined"
                                     type="text"
-                                    value={inputs.surname}
-                                    onChange={handleChange}
+                                    value={surname}
+                                    error={valid(surname)}
+                                    onChange={(e)=>dispatch(setSurname(e.target.value))}
                                     size="small"
                                     fullWidth
                                     InputLabelProps={{
@@ -120,9 +105,10 @@ const UserProfile: React.FC = () => {
                                     name="position"
                                     variant="outlined"
                                     type="text"
-                                    value={inputs.position}
-                                    onChange={handleChange}
+                                    value={position}
+                                    onChange={(e)=>dispatch(setPosition(e.target.value))}
                                     size="small"
+                                    error={valid(position)}
                                     fullWidth
                                     InputLabelProps={{
                                         sx: {"&.Mui-focused": {color: "text.secondary"}},
