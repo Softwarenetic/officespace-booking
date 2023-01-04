@@ -11,10 +11,13 @@ const MainPage: React.FC = () => {
     return (
         <Box>
             <Typography variant="h4">Main page</Typography>
-            <Button value={"Logout"} onClick={() => {
+            <Button onClick={() => {
                 dispatch(logoutSuccess());
                 navigate("/");
             }}>Logout</Button>
+            <Button onClick={() => {
+                navigate("/settings");
+            }}>Settings</Button>
         </Box>
     );
 };
