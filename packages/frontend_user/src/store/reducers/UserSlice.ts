@@ -1,34 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../../models/IUser";
+import {createSlice} from "@reduxjs/toolkit";
+import { getAuthToken, removeAuthToken, setupAxiosAuth } from "../../config/setup";
 
-interface UserState {
-  user: IUser;
-  isLoading: boolean;
-  sayHello: string;
-  isAuthenticated: string | boolean;
+interface AuthState {
+    isAuthenticated: boolean;
 }
 
-const initialState: UserState = {
-  user: {} as IUser,
-  isLoading: false,
-  sayHello: "",
-  isAuthenticated: localStorage.getItem("authApp") || false,
+const initialState: AuthState = {
+    isAuthenticated: !!getAuthToken()
 };
 
-export const userSlice = createSlice({
-  name: "user",
-  initialState,
-  reducers: {
-    loginSuccess(state) {
-      localStorage.setItem("authApp", "true");
-      state.isAuthenticated = true;
+export const authSlice = createSlice({
+    name: "auth",
+    initialState,
+    reducers: {
+        loginSuccess(state) {
+            setupAxiosAuth();
+            state.isAuthenticated = true;
+        },
+        logoutSuccess(state) {
+            removeAuthToken();
+            state.isAuthenticated = false;
+        }
     },
-    logoutSuccess(state) {
-      localStorage.removeItem("authApp");
-      state.isAuthenticated = false;
-    },
-  },
 });
 
-export const { loginSuccess, logoutSuccess } = userSlice.actions
-export default userSlice.reducer;
+export const {loginSuccess, logoutSuccess} = authSlice.actions
+export default authSlice.reducer;

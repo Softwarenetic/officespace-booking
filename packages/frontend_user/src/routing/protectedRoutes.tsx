@@ -3,7 +3,9 @@ import { useAppSelector } from '../hooks/redux';
 import MainPage from '../pages/mainPage/MainPage';
 
 export default function ProtectedRoutes() {
-  const isAuthenticated = useAppSelector((state) => state.userReducer.isAuthenticated);
 
-  return isAuthenticated ? <MainPage /> : <Navigate to="/login" />;
+    const { isAuthenticated } = useAppSelector((state) => state.authReducer)
+    
+
+  return  isAuthenticated ? <MainPage /> : <Navigate to="/login" />;
 }
