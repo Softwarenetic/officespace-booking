@@ -3,11 +3,13 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 import UserService from './user.service';
 import { JWT_STRATEGY } from '../common/strategy/jwt.strategy';
 import User from '../entity/User';
 
 @Controller('user')
+@ApiTags('user')
 export default class UserController {
   constructor(private readonly userService: UserService) {
   }
