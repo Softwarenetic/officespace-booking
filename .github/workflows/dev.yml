@@ -67,7 +67,8 @@ jobs:
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
       - run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker stop $(docker ps -q); docker rm $(docker ps --filter=status=exited --filter=status=created -q); docker rmi $(docker images -a --filter=dangling=true -q)" 
-
+        continue-on-error: true
+        
       - id: ssh_pull
         uses: invi5H/ssh-action@v1
         with:
