@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
-import React, { useEffect } from 'react';
-import { gapi } from 'gapi-script';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import React, {useEffect} from 'react';
+import {gapi} from 'gapi-script';
+import {GoogleOAuthProvider, GoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
 import './SignInWindow.scss';
 import { configs } from '../../config/config';
@@ -12,22 +12,22 @@ import picture from '../../assets/61f134d31a80c10b8052cbb30c7a46ae.jpg';
 import { setAuhtToken } from '../../config/setup';
 
 const SignInWindow: React.FC = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const initClient = () => {
-      gapi.client.init({
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        scope: ['profile', 'email'],
-      });
+    useEffect(() => {
+        const initClient = () => {
+            gapi.client.init({
+                clientId: process.env.GOOGLE_CLIENT_ID,
+                scope: ['profile', 'email'],
+            });
+        };
+        gapi.load('client:auth2', initClient);
+    });
+
+    const onFailure = () => {
+        console.log('failed');
     };
-    gapi.load('client:auth2', initClient);
-  });
-
-  const onFailure = () => {
-    console.log('failed');
-  };
 
   return (
     <Box className="main_container">
