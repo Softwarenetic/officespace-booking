@@ -50,14 +50,14 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: $FRONT_CONTAINER
+          tags: ${{ env.FRONT_CONTAINER }}
 
       - name: Build and push backend
         uses: docker/build-push-action@v3
         with:
           context: "./packages/backend/"
           push: true
-          tags: $BACK_CONTAINER
+          tags: ${{ env.BACK_CONTAINER }}
 
       - id: ssh_cleanup
         uses: invi5H/ssh-action@v1
