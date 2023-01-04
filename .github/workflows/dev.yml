@@ -7,7 +7,9 @@ on:
   pull_request:
     branches: [ dev ]
 env: 
-  BRANCH: dev
+  FRONT_CONTAINER: lysetskyiv/officespace_user:latest
+  BACK_CONTAINER: lysetskyiv/officespace-backend:latest
+
 jobs:
   run_app:
     runs-on: ubuntu-latest
@@ -19,82 +21,58 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Cache modules
-        uses: actions/cache@v1
-        id: yarn-cache
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-yarn-
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
 
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: 18
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: Build frontend_admin 
-        run: cd packages/frontend_admin && yarn && CI=false && yarn build
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: create .env for frontend_user
         run: echo ${{ secrets.ENV_FRONT_USER }} >> packages/frontend_user/.env
 
-      - name: Build frontend_user 
-        run: cd packages/frontend_user && yarn && CI=false && yarn build
-
       - name: create .env for backend
         run: echo ${{ secrets.ENV_BACK }} >> packages/backend/.env
 
+      - name: lint files 
+        run: yarn lint
 
+      - name: Build and push frontend
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: $FRONT_CONTAINER
 
-      - id: ssh_mkdir
-        uses: appleboy/ssh-action@v0.1.6
+      - name: Build and push backend
+        uses: docker/build-push-action@v3
         with:
-              host: ${{ secrets.SSH_HOST }}
-              port: ${{ secrets.SSH_PORT }}
-              username: ${{ secrets.SSH_USER }}
-              key: ${{ secrets.SSH_KEY }}
-              script: |
-                cd /home/ubuntu;
-                rm -rf  frontend_user frontend_admin envs
-                mkdir frontend_user frontend_admin envs
-      
-      - name: copy files user
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "packages/frontend_user/build/*"
-          target: "frontend_user"
+          context: "./packages/backend/"
+          push: true
+          tags: $BACK_CONTAINER
 
-      - name: copy files admin
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "packages/frontend_admin/build/*"
-          target: "frontend_admin"
-      - name: copy env backend
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          source: "packages/backend/.env"
-          target: "envs"
-      - id: ssh_move
+      - id: ssh_cleanup
         uses: invi5H/ssh-action@v1
         with:
               SSH_HOST: ${{ secrets.SSH_HOST }}
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh_move.outputs.SERVER }} "sudo cp -r /frontend_admin/build /var/www/html/admin/build; sudo cp -r /frontend_user/build /var/www/html/user/build; rm -rf frontend_user frontend_admin"
+      - run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker stop $(docker ps -q); docker rm $(docker ps --filter=status=exited --filter=status=created -q); docker rmi $(docker images -a --filter=dangling=true -q)" 
 
+      - id: ssh_pull
+        uses: invi5H/ssh-action@v1
+        with:
+              SSH_HOST: ${{ secrets.SSH_HOST }}
+              SSH_PORT: ${{ secrets.SSH_PORT }}
+              SSH_USER: ${{ secrets.SSH_USER }}
+              SSH_KEY: ${{ secrets.SSH_KEY }}
+      - run: ssh ${{ steps.ssh_pull.outputs.SERVER }}  "docker pull $FRONT_CONTAINER; docker pull $BACK_CONTAINER" 
+      
       - id: ssh_run
         uses: invi5H/ssh-action@v1
         with:
@@ -102,5 +80,4 @@ jobs:
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "rm -rf officespace-booking; pm2 delete 0; git clone $GITHUB_SERVER_URL/$GITHUB_REPOSITORY; cd officespace-booking; git checkout $BRANCH; git pull; cd ../envs; mv .env ../officespace-booking/packages/backend/; cd ../officespace-booking/scripts; . build.sh" 
-      
+      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "docker run -d -p 80:80 $FRONT_CONTAINER; docker run 4000:4000 $BACK_CONTAINER" 
