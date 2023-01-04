@@ -1,4 +1,4 @@
-import {Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
+import {Avatar, Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import React, {ChangeEvent, useEffect} from "react";
 import "./UserProfile.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -9,7 +9,7 @@ import {setName, setPosition, setProfile, setSurname} from "../../store/reducers
 
 
 const UserProfile: React.FC = () => {
-    const {name, position, surname} = useAppSelector((state) => state.profileReducer);
+    const {name, position, surname, avatar} = useAppSelector((state) => state.profileReducer);
     const dispatch = useAppDispatch();
 
     const initProfile = () => {
@@ -41,7 +41,7 @@ const UserProfile: React.FC = () => {
         );
 
         const {data} = await axios.post("user/avatar", formData);
-        alert(data["avatar"]);
+        initProfile()
     }
 
 
@@ -69,7 +69,7 @@ const UserProfile: React.FC = () => {
 
                     <Grid container mb={1}>
                         <Grid item xs={1}>
-                            <AccountCircleIcon color="disabled" sx={{fontSize: 50}}/>
+                            <Avatar src={avatar} color="disabled" sx={{fontSize: 50}}/>
                         </Grid>
                         <Grid item xs={3}>
                             <Button component="label">
