@@ -9,7 +9,7 @@ const MainPage: React.FC = () => {
   return (
     <Box className="main_container">
       <Box className="image_container">
-        <img src={image} alt="picture" />
+        <img src={image} alt="office_img" />
       </Box>
       <Paper elevation={3} className="date_container">
         <DatePicker />

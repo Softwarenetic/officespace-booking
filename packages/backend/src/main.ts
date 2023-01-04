@@ -5,9 +5,8 @@ import 'reflect-metadata';
 
 AppDataSource.initialize()
   .then(() => {
-    console.log('Data Source has been initialized!');
   })
-  .catch((error) => console.error('Error during Data Source initialization: ', error));
+  .catch(() => 0);
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

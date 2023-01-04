@@ -11,7 +11,6 @@ import './Table.scss';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Padding } from '@mui/icons-material';
 
 function createData(name: string, hours: string, editing: string) {
   return { name, hours, editing };

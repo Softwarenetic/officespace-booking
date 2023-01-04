@@ -4,7 +4,6 @@ import Workplace from '../entity/Workplace';
 import Office from '../entity/Office';
 import Reservation from '../entity/Reservation';
 
-
 const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
