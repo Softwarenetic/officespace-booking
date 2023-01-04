@@ -18,7 +18,7 @@ const UserProfile: React.FC = () => {
     }
     useEffect(() => {
         initProfile()
-    })
+    }, [])
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
