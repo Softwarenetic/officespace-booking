@@ -39,6 +39,10 @@ jobs:
       - name: create .env for backend
         run: echo ${{ secrets.ENV_BACK }} >> packages/backend/.env
 
+      - name: yarn install 
+        run: yarn install
+
+
       - name: lint files 
         run: yarn lint
 
