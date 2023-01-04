@@ -68,7 +68,7 @@ jobs:
               SSH_KEY: ${{ secrets.SSH_KEY }}
       - name: Cleanup server  
         continue-on-error: true
-        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker stop $(docker ps -q) || true; docker rm $(docker ps -q) || true; docker rmi $(docker images -a -q) || true" 
+        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker rmi $(docker images -a -q) || true; docker stop $(docker ps -a -q) || true; docker rm $(docker ps -a -q) || true; docker rmi $(docker images -a -q) || true" 
         
        
 
@@ -99,4 +99,4 @@ jobs:
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "docker run -d -p 80:80 $FRONT_CONTAINER; docker run 4000:4000 $BACK_CONTAINER" 
+      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "docker run -d -p 80:80 $FRONT_CONTAINER; docker run -d -p 4000:4000 $BACK_CONTAINER" 
