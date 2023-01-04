@@ -68,7 +68,7 @@ jobs:
               SSH_KEY: ${{ secrets.SSH_KEY }}
       - name: Cleanup server  
         continue-on-error: true
-        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker stop $(docker ps -q); docker rm $(docker ps -q); docker rmi $(docker images -a -q)" 
+        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker stop $(docker ps -q) || true; docker rm $(docker ps -q) || true; docker rmi $(docker images -a -q) || true" 
         
         
       - id: ssh_pull
