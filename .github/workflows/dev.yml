@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ dev ]
 env: 
-  FRONT_CONTAINER: lysetskyiv/officespace_user:latest
+  FRONT_CONTAINER: lysetskyiv/officespace-user:latest
   BACK_CONTAINER: lysetskyiv/officespace-backend:latest
 
 jobs:
