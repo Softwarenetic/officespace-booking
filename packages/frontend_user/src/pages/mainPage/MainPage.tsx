@@ -7,7 +7,7 @@ import BasicMenu from '../../components/popupProfileMenu/PopupProfileMenu';
 
 const MainPage: React.FC = () => {
   return (
-    <Box className="main_container">
+    <Box className="main_page_container">
       <Box className="image_container">
         <img src={image} alt="office_img" />
       </Box>

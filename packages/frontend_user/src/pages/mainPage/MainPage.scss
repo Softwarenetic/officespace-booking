@@ -7,22 +7,25 @@
   width: 100%;
 }
 .date_container {
-  height: 38%;
+  height: 31%;
   margin-top: 80px;
+  
 }
-.main_container {
+.main_page_container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   padding-left: 40px;
+  width:100%
 }
 
 .user_icon {
   display: flex;
   justify-content: flex-end;
+  padding-top: 5px;
 }
 
 .table-item {
-  margin-right: auto;
-  margin-left: 5%;
+  margin-right: 35%;
+  width: 55%;
 }

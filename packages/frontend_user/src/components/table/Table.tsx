@@ -20,6 +20,7 @@ const rows = [
   createData('Name', '09:00-10:15', 'you can edit this'),
   createData('Name', '09:00-10:15', 'you can edit this'),
   createData('Name', '09:00-10:15', 'you can edit this'),
+  createData('Name', '09:00-10:15', 'you can edit this'),
 ];
 
 const useStyles = makeStyles({
@@ -32,13 +33,13 @@ function BasicTable() {
   const classes = useStyles();
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} elevation={3}>
       <Typography variant="subtitle1" display="block" sx={{ mx: 2 }} className="font">
         Meeting room #1
       </Typography>
       <KeyboardArrowLeftIcon color="secondary" sx={{ fontSize: 25, mx: 2 }} />
       <KeyboardArrowRightIcon color="secondary" sx={{ fontSize: 25 }} />
-      <Table sx={{ width: '750px' }} aria-label="simple table">
+      <Table sx={{ width: '100%' }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell className={classes.tableCell}>
