@@ -21,24 +21,20 @@ const rows = [
   createData('Name', '09:00-10:15', 'you can edit this'),
   createData('Name', '09:00-10:15', 'you can edit this'),
   createData('Name', '09:00-10:15', 'you can edit this'),
-  
 ];
 
 const useStyles = makeStyles({
   tableRow: {
-   height:30
+    height: 30,
   },
-  tableCell: {
-    
-  },
- 
+  tableCell: {},
 });
 function BasicTable() {
   const classes = useStyles();
 
   return (
     <TableContainer component={Paper}>
-      <Typography variant="subtitle1" display="block" sx={{ mx: 2 }} className='font'>
+      <Typography variant="subtitle1" display="block" sx={{ mx: 2 }} className="font">
         Meeting room #1
       </Typography>
       <KeyboardArrowLeftIcon color="secondary" sx={{ fontSize: 25, mx: 2 }} />
@@ -64,7 +60,7 @@ function BasicTable() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               className={classes.tableRow}
             >
-              <TableCell className={classes.tableCell} sx={{ display:'flex',alignItems:'center' }} >
+              <TableCell className={classes.tableCell} sx={{ display: 'flex', alignItems: 'center' }}>
                 <AccountCircleIcon color="disabled" sx={{ fontSize: 25, mr: '5px' }} />
                 <span>{row.name}</span>
               </TableCell>
@@ -75,9 +71,8 @@ function BasicTable() {
         </TableBody>
       </Table>
       <Box className="book_btn">
-        <Button variant="contained" size="small"  >
-          <span className='font'>Book meeting</span>
-          
+        <Button variant="contained" size="small">
+          <span className="font">Book meeting</span>
         </Button>
       </Box>
     </TableContainer>

@@ -1,13 +1,13 @@
-import { createBrowserRouter } from "react-router-dom";
-import NotFound from "../pages/NotFound/NotFound";
-import RootLayout from "../pages/rootLayout/RootLayout";
-import SignInWindow from "../pages/sign-in/SignInWindow";
-import UserProfile from "../pages/userProfile/UserProfile";
-import ProtectedRoutes from "./protectedRoutes";
+import { createBrowserRouter } from 'react-router-dom';
+import NotFound from '../pages/NotFound/NotFound';
+import RootLayout from '../pages/rootLayout/RootLayout';
+import SignInWindow from '../pages/sign-in/SignInWindow';
+import UserProfile from '../pages/userProfile/UserProfile';
+import ProtectedRoutes from './protectedRoutes';
 
 export const routing = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <RootLayout />,
     children: [
       {
@@ -15,18 +15,17 @@ export const routing = createBrowserRouter([
         index: true,
       },
       {
-        path: "/settings",
+        path: '/settings',
         element: <UserProfile />,
       },
-      
     ],
   },
   {
-    path: "/login",
+    path: '/login',
     element: <SignInWindow />,
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFound />,
   },
 ]);
