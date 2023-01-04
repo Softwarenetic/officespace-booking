@@ -1,15 +1,15 @@
 import {Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
-import React, {useEffect} from "react";
+import React, {ChangeEvent, useEffect} from "react";
 import "./UserProfile.scss";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import axios from "axios";
-import { setName, setPosition, setProfile, setSurname } from "../../store/reducers/ProfileSlice";
+import {setName, setPosition, setProfile, setSurname} from "../../store/reducers/ProfileSlice";
 
 
 const UserProfile: React.FC = () => {
-    const {name,position,surname } = useAppSelector((state) => state.profileReducer);
+    const {name, position, surname} = useAppSelector((state) => state.profileReducer);
     const dispatch = useAppDispatch();
 
     const initProfile = () => {
@@ -19,7 +19,7 @@ const UserProfile: React.FC = () => {
     }
     useEffect(() => {
         initProfile()
-    }, [])
+    })
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -31,6 +31,19 @@ const UserProfile: React.FC = () => {
     };
 
     const valid = (text: string) => text.match(/^[a-zA-Z-]+$/) === null && text.length > 2;
+
+    const uploadPhoto = async (e: ChangeEvent<HTMLInputElement>) => {
+        const formData = new FormData();
+
+        formData.append(
+            "avatar",
+            e.target.files![0]
+        );
+
+        const {data} = await axios.post("user/avatar", formData);
+        alert(data["avatar"]);
+    }
+
 
     return (
         <Box>
@@ -53,14 +66,16 @@ const UserProfile: React.FC = () => {
 
                 <Paper className="grid_2">
                     <Typography variant="subtitle1">Avatar</Typography>
+
                     <Grid container mb={1}>
                         <Grid item xs={1}>
                             <AccountCircleIcon color="disabled" sx={{fontSize: 50}}/>
                         </Grid>
                         <Grid item xs={3}>
-                            <Typography variant="subtitle1" mt={1}>
+                            <Button component="label">
                                 UPLOAD PHOTO
-                            </Typography>
+                                <input onChange={uploadPhoto} hidden accept="image/*" multiple type="file"/>
+                            </Button>
                         </Grid>
                     </Grid>
 
@@ -73,7 +88,7 @@ const UserProfile: React.FC = () => {
                                     variant="outlined"
                                     type="text"
                                     value={name}
-                                    onChange={(e)=>dispatch(setName(e.target.value))}
+                                    onChange={(e) => dispatch(setName(e.target.value))}
                                     size="small"
                                     error={valid(name)}
                                     fullWidth
@@ -91,7 +106,7 @@ const UserProfile: React.FC = () => {
                                     type="text"
                                     value={surname}
                                     error={valid(surname)}
-                                    onChange={(e)=>dispatch(setSurname(e.target.value))}
+                                    onChange={(e) => dispatch(setSurname(e.target.value))}
                                     size="small"
                                     fullWidth
                                     InputLabelProps={{
@@ -106,7 +121,7 @@ const UserProfile: React.FC = () => {
                                     variant="outlined"
                                     type="text"
                                     value={position}
-                                    onChange={(e)=>dispatch(setPosition(e.target.value))}
+                                    onChange={(e) => dispatch(setPosition(e.target.value))}
                                     size="small"
                                     error={valid(position)}
                                     fullWidth
