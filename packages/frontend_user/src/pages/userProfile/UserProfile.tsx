@@ -1,7 +1,6 @@
 import {Avatar, Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import React, {ChangeEvent, useEffect} from "react";
 import "./UserProfile.scss";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import axios from "axios";
