@@ -5,6 +5,8 @@ on:
   push:
     branches: [ dev ]
   pull_request:
+    types:
+      - closed
     branches: [ dev ]
 env: 
   FRONT_CONTAINER: lysetskyiv/officespace-user:latest
@@ -12,6 +14,7 @@ env:
 
 jobs:
   run_app:
+    if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
       - name: install zip
@@ -41,7 +44,6 @@ jobs:
 
       - name: yarn install 
         run: yarn install
-
 
       - name: lint files 
         run: yarn lint
