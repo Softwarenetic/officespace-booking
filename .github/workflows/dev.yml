@@ -93,14 +93,6 @@ jobs:
         continue-on-error: true
         run: ssh ${{ steps.ssh_pull.outputs.SERVER }}  "docker pull $FRONT_CONTAINER; docker pull $BACK_CONTAINER" 
       
-      - id: ssh_stop_nginx
-        uses: invi5H/ssh-action@v1
-        with:
-              SSH_HOST: ${{ secrets.SSH_HOST }}
-              SSH_PORT: ${{ secrets.SSH_PORT }}
-              SSH_USER: ${{ secrets.SSH_USER }}
-              SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh_stop_nginx.outputs.SERVER }}  "sudo service nginx stop"
       
       - id: ssh_run
         uses: invi5H/ssh-action@v1
@@ -109,4 +101,13 @@ jobs:
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "docker run -d -p 80:80 $FRONT_CONTAINER; docker run -d -p 4000:4000 $BACK_CONTAINER" 
+      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "docker run -d -p 81:80 $FRONT_CONTAINER; docker run -d -p 4000:4000 $BACK_CONTAINER"
+
+      - id: ssh_restart_nginx
+        uses: invi5H/ssh-action@v1
+        with:
+              SSH_HOST: ${{ secrets.SSH_HOST }}
+              SSH_PORT: ${{ secrets.SSH_PORT }}
+              SSH_USER: ${{ secrets.SSH_USER }}
+              SSH_KEY: ${{ secrets.SSH_KEY }}
+      - run: ssh ${{ steps.ssh_restart_nginx.outputs.SERVER }}  "sudo service nginx restart"  
