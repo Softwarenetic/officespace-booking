@@ -12,9 +12,6 @@ env:
   FRONT_CONTAINER: lysetskyiv/officespace-user:latest
   BACK_CONTAINER: lysetskyiv/officespace-backend:latest
 
-  FRONT_CONTAINER: lysetskyiv/officespace-user:latest
-  BACK_CONTAINER: lysetskyiv/officespace-backend:latest
-
 jobs:
   run_app:
     if: ${{ github.event.pull_request.merged }}
