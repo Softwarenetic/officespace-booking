@@ -36,7 +36,7 @@ const SignInWindow: React.FC = () => {
         <Box className="triangle_2"></Box>
         <Box className='triangle_3'></Box>
       <Box className='signPicture'>
-        <img src={picture} alt="office" />
+        <img src={picture} alt="office_img" />
      </Box>
       <Box className="sign_container">
         <Box className='logo_container'>
