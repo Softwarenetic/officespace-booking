@@ -6,12 +6,14 @@ WORKDIR /usr/src/app
 RUN apk add --no-cache git
 
 COPY ./packages/frontend_user/package.json /usr/src/app/package.json
+
+RUN npm install --save --legacy-peer-deps
+
 COPY ./packages/frontend_user/public /usr/src/app/public
 COPY ./packages/frontend_user/src /usr/src/app/src
 COPY ./packages/frontend_user/tsconfig.json /usr/src/app/
 COPY ./packages/frontend_user/.env /usr/src/app/
 
-RUN npm install
 
 RUN chown -R node node_modules
 RUN npm run build
