@@ -80,7 +80,7 @@ jobs:
       
       - name: stop all containers  
         continue-on-error: true
-        run: ssh ${{ steps.ssh.outputs.SERVER }}  "docker stop $(docker ps -a -q)"
+        run: ssh ${{ steps.ssh.outputs.SERVER }}  "docker stop $(docker ps -q)"
       
       - name: remove all containers  
         continue-on-error: true
@@ -88,7 +88,7 @@ jobs:
       
       - name: remove all images used before 
         continue-on-error: true
-        run: ssh ${{ steps.ssh.outputs.SERVER }}  "docker rmi $(docker images -a -q)" 
+        run: ssh ${{ steps.ssh.outputs.SERVER }}  "docker rmi $(docker images -q)" 
 
       - name: pull containers  
         continue-on-error: true
