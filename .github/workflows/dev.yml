@@ -65,58 +65,37 @@ jobs:
       - name: Build and push admin
         uses: docker/build-push-action@v3
         with:
-          context: "./packages/backend/"
+          context: "./packages/frontend_admin/"
           push: true
           tags: ${{ env.ADMIN_CONTAINER }}
       
 
-      - id: ssh_cleanup
+      - id: ssh
         uses: invi5H/ssh-action@v1
         with:
               SSH_HOST: ${{ secrets.SSH_HOST }}
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - name: remove all images  
-        continue-on-error: true
-        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker rmi $(docker images -a -q)" 
+      
       - name: stop all containers  
         continue-on-error: true
-        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker stop $(docker ps -a -q)"
+        run: ssh ${{ steps.ssh.outputs.SERVER }}  "docker stop $(docker ps -a -q)"
+      
       - name: remove all containers  
         continue-on-error: true
-        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker rm $(docker ps -a -q)"   
+        run: ssh ${{ steps.ssh.outputs.SERVER }}  "docker rm $(docker ps -a -q)"   
+      
       - name: remove all images used before 
         continue-on-error: true
-        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker rmi $(docker images -a -q)" 
-       
+        run: ssh ${{ steps.ssh.outputs.SERVER }}  "docker rmi $(docker images -a -q)" 
 
-      - id: ssh_pull
-        uses: invi5H/ssh-action@v1
-        with:
-              SSH_HOST: ${{ secrets.SSH_HOST }}
-              SSH_PORT: ${{ secrets.SSH_PORT }}
-              SSH_USER: ${{ secrets.SSH_USER }}
-              SSH_KEY: ${{ secrets.SSH_KEY }}
       - name: pull containers  
         continue-on-error: true
-        run: ssh ${{ steps.ssh_pull.outputs.SERVER }}  "docker pull $FRONT_CONTAINER; docker pull $ADMIN_CONTAINER; docker pull $BACK_CONTAINER" 
+        run: ssh ${{ steps.ssh.outputs.SERVER }}  "docker pull $FRONT_CONTAINER; docker pull $ADMIN_CONTAINER; docker pull $BACK_CONTAINER" 
       
-      
-      - id: ssh_run
-        uses: invi5H/ssh-action@v1
-        with:
-              SSH_HOST: ${{ secrets.SSH_HOST }}
-              SSH_PORT: ${{ secrets.SSH_PORT }}
-              SSH_USER: ${{ secrets.SSH_USER }}
-              SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh_run.outputs.SERVER }}  "docker run -d -p 81:80 $FRONT_CONTAINER; docker run -d -p 4000:4000 $BACK_CONTAINER; docker run -d -p 82:80 $ADMIN_CONTAINER;"
+      - name: run containers
+        run: ssh ${{ steps.ssh.outputs.SERVER }}  "docker run -d -p 81:80 $FRONT_CONTAINER; docker run -d -p 4000:4000 $BACK_CONTAINER; docker run -d -p 82:80 $ADMIN_CONTAINER;"
 
-      - id: ssh_restart_nginx
-        uses: invi5H/ssh-action@v1
-        with:
-              SSH_HOST: ${{ secrets.SSH_HOST }}
-              SSH_PORT: ${{ secrets.SSH_PORT }}
-              SSH_USER: ${{ secrets.SSH_USER }}
-              SSH_KEY: ${{ secrets.SSH_KEY }}
-      - run: ssh ${{ steps.ssh_restart_nginx.outputs.SERVER }}  "sudo service nginx restart"  
+      - name: restart nginx
+        run: ssh ${{ steps.ssh.outputs.SERVER }}  "sudo service nginx restart"  
