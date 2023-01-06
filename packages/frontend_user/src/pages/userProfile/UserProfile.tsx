@@ -35,7 +35,7 @@ const UserProfile: React.FC = () => {
 
     formData.append('avatar', e.target.files![0]);
 
-    const { data } = await axios.post('user/avatar', formData);
+    await axios.post('user/avatar', formData);
     initProfile();
   };
 
