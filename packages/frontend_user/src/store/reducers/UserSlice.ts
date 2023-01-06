@@ -1,26 +1,28 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "../../models/IUser";
+import {createSlice} from "@reduxjs/toolkit";
+import { getAuthToken, removeAuthToken, setupAxiosAuth } from "../../config/setup";
 
-interface UserState {
-  user: IUser;
-  isLoading: boolean;
-  sayHello: string;
+interface AuthState {
+    isAuthenticated: boolean;
 }
 
-const initialState: UserState = {
-  user: <IUser>{},
-  isLoading: false,
-  sayHello: "",
+const initialState: AuthState = {
+    isAuthenticated: !!getAuthToken()
 };
 
-export const userSlice = createSlice({
-  name: "user",
-  initialState,
-  reducers: {
-    sayHello(state, action: PayloadAction<string>) {
-      state.sayHello = action.payload;
+export const authSlice = createSlice({
+    name: "auth",
+    initialState,
+    reducers: {
+        loginSuccess(state) {
+            setupAxiosAuth();
+            state.isAuthenticated = true;
+        },
+        logoutSuccess(state) {
+            removeAuthToken();
+            state.isAuthenticated = false;
+        }
     },
-  },
 });
 
-export default userSlice.reducer;
+export const {loginSuccess, logoutSuccess} = authSlice.actions
+export default authSlice.reducer;

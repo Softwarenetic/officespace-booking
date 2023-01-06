@@ -1,25 +1,29 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
-export class Office {
+export default class Office {
   @PrimaryGeneratedColumn()
-  id: number;
+  @ApiProperty({ example: 1, description: 'Id of office' })
+    id: number;
 
   @Column({
     length: 20,
   })
-  name: string;
+  @ApiProperty({ example: 'Office', description: 'Name of office' })
+    name: string;
 
   @Column({
     length: 100,
   })
-  address: string;
+  @ApiProperty({ example: 'Heroiv UPA 77', description: 'Address of office' })
+    address: string;
 
   @Column()
-  floor: number;
+  @ApiProperty({ example: 1, description: 'Number of floor where office is' })
+    floor: number;
 
   @Column('text')
-  svg: string;
+  @ApiProperty({ example: '<svg version="1.1" xmlns="http://www.></svg>', description: 'Svg map of workplace' })
+    svg: string;
 }
-
-export default Office;
