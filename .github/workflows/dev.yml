@@ -77,10 +77,18 @@ jobs:
               SSH_PORT: ${{ secrets.SSH_PORT }}
               SSH_USER: ${{ secrets.SSH_USER }}
               SSH_KEY: ${{ secrets.SSH_KEY }}
-      - name: Cleanup server  
+      - name: remove all images  
         continue-on-error: true
-        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker rmi $(docker images -a -q) || true; docker stop $(docker ps -a -q) || true; docker rm $(docker ps -a -q) || true; docker rmi $(docker images -a -q) || true" 
-        
+        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker rmi $(docker images -a -q)" 
+      - name: stop all containers  
+        continue-on-error: true
+        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker stop $(docker ps -a -q)"
+      - name: remove all containers  
+        continue-on-error: true
+        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker rm $(docker ps -a -q)"   
+      - name: remove all images used before 
+        continue-on-error: true
+        run: ssh ${{ steps.ssh_cleanup.outputs.SERVER }}  "docker rmi $(docker images -a -q)" 
        
 
       - id: ssh_pull
