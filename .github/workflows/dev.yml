@@ -3,11 +3,11 @@ on:
 #   branch_protection_rule:
 #     types: [created, edited]
   push:
-    branches: [ dev ]
-  pull_request:
-    types:
-      - closed
-    branches: [ dev ]
+    branches: [ WBS-58_nginx ]
+  # pull_request:
+  #   types:
+  #     - closed
+  #   branches: [ dev ]
 env: 
   FRONT_CONTAINER: lysetskyiv/officespace-user:latest
   ADMIN_CONTAINER: lysetskyiv/officespace-admin:latest 
