@@ -20,6 +20,6 @@ RUN npm run build
 FROM nginx:1.23.3
 COPY --from=builder_admin /usr/src/app/build/ /var/www/user/
 RUN chmod -R 755 /var/www/user/
-COPY ../../nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 ENTRYPOINT ["nginx","-g","daemon off;"]
