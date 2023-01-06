@@ -1,8 +1,11 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException, CACHE_MANAGER, Inject, Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from 'google-auth-library';
 import { DataSource } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
+import { Cache } from 'cache-manager';
 import User from './entity/User';
 
 @Injectable()
@@ -11,7 +14,12 @@ export default class AppService {
     return 'Hello World!';
   }
 
-  constructor(@InjectDataSource() private dataSource: DataSource, private jwtService: JwtService) {
+  constructor(
+    @InjectDataSource() private dataSource: DataSource,
+    private jwtService: JwtService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {
+    this.cacheManager.set('allowedEmails', ['softwarenetic.com']);
   }
 
   async login(user: User) {
@@ -36,6 +44,12 @@ export default class AppService {
     const user = (await this.dataSource.manager.findOneBy(User, { email: data.email }));
     if (user) {
       return this.login(user);
+    }
+
+    if (!(await this.cacheManager.get<Array<string>>('allowedEmails')).includes(data.email.split('@')[1])) {
+      return {
+        message: 'not allowed company',
+      };
     }
 
     const companyNameFromEmailRegex = /@(.*?)\./;
