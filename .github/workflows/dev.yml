@@ -10,6 +10,7 @@ on:
     branches: [ dev ]
 env: 
   FRONT_CONTAINER: lysetskyiv/officespace-user:latest
+  ADMIN_CONTAINER: lysetskyiv/officespace-admin:latest 
   BACK_CONTAINER: lysetskyiv/officespace-backend:latest
 
 jobs:
@@ -61,6 +62,14 @@ jobs:
           push: true
           tags: ${{ env.BACK_CONTAINER }}
 
+      - name: Build and push admin
+        uses: docker/build-push-action@v3
+        with:
+          context: "./packages/backend/"
+          push: true
+          tags: ${{ env.ADMIN_CONTAINER }}
+      
+
       - id: ssh_cleanup
         uses: invi5H/ssh-action@v1
         with:
@@ -83,7 +92,7 @@ jobs:
               SSH_KEY: ${{ secrets.SSH_KEY }}
       - name: pull containers  
         continue-on-error: true
-        run: ssh ${{ steps.ssh_pull.outputs.SERVER }}  "docker pull $FRONT_CONTAINER; docker pull $BACK_CONTAINER" 
+        run: ssh ${{ steps.ssh_pull.outputs.SERVER }}  "docker pull $FRONT_CONTAINER; docker pull $ADMIN_CONTAINER; docker pull $BACK_CONTAINER" 
       
       
       - id: ssh_run
