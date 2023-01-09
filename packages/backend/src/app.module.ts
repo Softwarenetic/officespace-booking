@@ -6,9 +6,14 @@ import AppService from './app.service';
 import { JwtStrategy } from './common/strategy/jwt.strategy';
 import UserModule from './user/user.module';
 import TypeormConfig from './config/typeorm.config';
+import configuration from './config/configuration';
 
 @Module({
-  imports: [ConfigModule.forRoot(), TypeormConfig, UserModule],
+  imports: [ConfigModule.forRoot({
+    envFilePath: ['.env'],
+    isGlobal: false,
+    load: [configuration],
+  }), TypeormConfig, UserModule],
   controllers: [AppController],
   providers: [AppService, JwtService, JwtStrategy],
 })

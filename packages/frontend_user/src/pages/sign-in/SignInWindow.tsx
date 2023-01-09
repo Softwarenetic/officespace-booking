@@ -55,7 +55,7 @@ const SignInWindow: React.FC = () => {
                             <GoogleLogin
                                 onSuccess={async (credentialResponse) => {
                                     try {
-                                        const {data} = await axios.post('/login0', {
+                                        const {data} = await axios.post('/login', {
                                             token: credentialResponse.credential,
                                         });
                                         setAuhtToken(data.data && data.data.access_token);

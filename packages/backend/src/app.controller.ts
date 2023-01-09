@@ -8,17 +8,19 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { OAuth2Client } from 'google-auth-library';
+import { ConfigService } from '@nestjs/config';
 import { JWT_STRATEGY } from './common/strategy/jwt.strategy';
 import AppService from './app.service';
 
-const client = new OAuth2Client(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-);
-
 @Controller()
 export default class AppController {
-  constructor(private readonly appService: AppService) {
+  private client: OAuth2Client;
+
+  constructor(private readonly appService: AppService, private configService: ConfigService) {
+    this.client = new OAuth2Client(
+      this.configService.get('GOOGLE_CLIENT_ID'),
+      this.configService.get('GOOGLE_CLIENT_SECRET'),
+    );
   }
 
   @Get()
@@ -36,9 +38,9 @@ export default class AppController {
   async login(@Body('token') token) {
     const ticket = await (async () => {
       try {
-        return await client.verifyIdToken({
+        return await this.client.verifyIdToken({
           idToken: token,
-          audience: process.env.GOOGLE_CLIENT_ID,
+          audience: this.configService.get('GOOGLE_CLIENT_ID'),
         });
         /* eslint-disable-next-line */
             } catch (e) {

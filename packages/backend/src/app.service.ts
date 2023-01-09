@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from 'google-auth-library';
 import { DataSource } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
 import User from './entity/User';
 
 @Injectable()
@@ -11,7 +12,11 @@ export default class AppService {
     return 'Hello World!';
   }
 
-  constructor(@InjectDataSource() private dataSource: DataSource, private jwtService: JwtService) {
+  constructor(
+    @InjectDataSource() private dataSource: DataSource,
+    private jwtService: JwtService,
+    private configService: ConfigService,
+  ) {
   }
 
   async login(user: User) {
@@ -22,8 +27,8 @@ export default class AppService {
           email: user.email,
         },
         {
-          secret: process.env.JWT_SECRET,
-          expiresIn: process.env.JWT_EXPIRE_TIME,
+          secret: this.configService.get('JWT_SECRET'),
+          expiresIn: this.configService.get('JWT_EXPIRE_TIME'),
         },
       ),
     };
