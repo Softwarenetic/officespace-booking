@@ -39,7 +39,7 @@ export default class AppService {
 
   async signInWithGoogle(data: TokenPayload) {
     if (!data) {
-      throw new BadRequestException();
+      throw new BadRequestException("User don't exists");
     }
     const user = (await this.dataSource.manager.findOneBy(User, { email: data.email }));
     if (user) {
@@ -48,9 +48,7 @@ export default class AppService {
 
     const allowedDomains = appCache.get('allowedDomains') as string[];
     if (!(allowedDomains.includes(data.email.split('@')[1]))) {
-      return {
-        message: 'not allowed company',
-      };
+      throw new BadRequestException("Don't allowed domain");
     }
 
     const companyNameFromEmailRegex = /@(.*?)\./;
