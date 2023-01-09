@@ -4,6 +4,8 @@ import { TokenPayload } from 'google-auth-library';
 import { DataSource } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
 import User from './entity/User';
+import appCache from './config/node-cache.config';
+import Settings from './entity/Settings';
 
 @Injectable()
 export default class AppService {
@@ -11,7 +13,13 @@ export default class AppService {
     return 'Hello World!';
   }
 
-  constructor(@InjectDataSource() private dataSource: DataSource, private jwtService: JwtService) {
+  constructor(
+    @InjectDataSource() private dataSource: DataSource,
+    private jwtService: JwtService,
+  ) {
+    (async () => {
+      appCache.set('allowedDomains', (await this.dataSource.manager.findOneBy(Settings, { id: 1 })).domains);
+    })();
   }
 
   async login(user: User) {
@@ -31,11 +39,16 @@ export default class AppService {
 
   async signInWithGoogle(data: TokenPayload) {
     if (!data) {
-      throw new BadRequestException();
+      throw new BadRequestException("User don't exists");
     }
     const user = (await this.dataSource.manager.findOneBy(User, { email: data.email }));
     if (user) {
       return this.login(user);
+    }
+
+    const allowedDomains = appCache.get('allowedDomains') as string[];
+    if (!(allowedDomains.includes(data.email.split('@')[1]))) {
+      throw new BadRequestException("Don't allowed domain");
     }
 
     const companyNameFromEmailRegex = /@(.*?)\./;
