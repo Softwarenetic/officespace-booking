@@ -35,7 +35,7 @@ const SignInWindow: React.FC = () => {
     }, [message])
 
     const onFailure = () => {
-        console.log('failed');
+        setMessage('Google login failed');
     };
 
     return (
@@ -54,12 +54,16 @@ const SignInWindow: React.FC = () => {
                         <GoogleOAuthProvider clientId={configs.googleClientId}>
                             <GoogleLogin
                                 onSuccess={async (credentialResponse) => {
-                                    const {data} = await axios.post('/login', {
-                                        token: credentialResponse.credential,
-                                    });
-                                    setAuhtToken(data.data && data.data.access_token);
-                                    dispatch(loginSuccess());
-                                    return data.message === 'success' ? navigate('/') : setMessage(data.message);
+                                    try {
+                                        const {data} = await axios.post('/login0', {
+                                            token: credentialResponse.credential,
+                                        });
+                                        setAuhtToken(data.data && data.data.access_token);
+                                        dispatch(loginSuccess());
+                                        navigate('/');
+                                    } catch (e: any) {
+                                        setMessage(e['response']['data']['message']);
+                                    }
                                 }}
                                 onError={onFailure}
                             />

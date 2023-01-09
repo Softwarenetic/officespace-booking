@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -33,29 +34,25 @@ export default class AppController {
 
   @Post('login')
   async login(@Body('token') token) {
-    try {
-      const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: process.env.GOOGLE_CLIENT_ID,
-      });
-      if (!ticket) {
-        return ({
-          message: 'error',
-          details: 'user not exists',
+    const ticket = await (async () => {
+      try {
+        return await client.verifyIdToken({
+          idToken: token,
+          audience: process.env.GOOGLE_CLIENT_ID,
         });
+        /* eslint-disable-next-line */
+            } catch (e) {
+        throw new BadRequestException('invalid token signature');
       }
-      const payload = ticket.getPayload();
-      const data = await this.appService.signInWithGoogle(payload);
-      return {
-        data,
-        message: 'success',
-      };
-      /* eslint-disable-next-line */
-        } catch (e) {
-      return ({
-        message: 'error',
-        details: 'invalid token signature',
-      });
+    })();
+    if (!ticket) {
+      throw new BadRequestException('user not exists');
     }
+    const payload = ticket.getPayload();
+    const data = await this.appService.signInWithGoogle(payload);
+    return {
+      data,
+      message: 'success',
+    };
   }
 }
