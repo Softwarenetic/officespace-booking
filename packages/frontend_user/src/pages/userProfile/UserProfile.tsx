@@ -5,10 +5,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import axios from 'axios';
 import {setName, setPosition, setProfile, setSurname} from '../../store/reducers/ProfileSlice';
+import {useNavigate} from "react-router-dom";
+import {removeAuthToken} from "../../config/setup";
 
 const UserProfile: React.FC = () => {
     const {name, position, surname, avatar} = useAppSelector((state) => state.profileReducer);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const initProfile = () => {
         axios.get(`/user`).then((res) => {
@@ -38,6 +41,12 @@ const UserProfile: React.FC = () => {
         await axios.post('user/avatar', formData);
         initProfile();
     };
+
+    const deleteProfile = async () => {
+        await axios.delete('user');
+        removeAuthToken();
+        navigate("/login");
+    }
 
     return (
         <Box className="main_settings_container">
@@ -144,7 +153,7 @@ const UserProfile: React.FC = () => {
                                     </Button>
                                 </Grid>
                                 <Grid item xs={3} mt={2} color="error">
-                                    <Button variant="outlined" size="small">
+                                    <Button onClick={deleteProfile} variant="outlined" size="small">
                                         Delete profile
                                     </Button>
                                 </Grid>

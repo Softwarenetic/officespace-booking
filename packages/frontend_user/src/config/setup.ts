@@ -13,7 +13,7 @@ export const setupAxiosAuth = () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
 
-export const setAuhtToken = (token:string) => {
+export const setAuthToken = (token:string) => {
     localStorage.setItem(AUTH_LOCALSTORAGE_KEY, token);
 }
 

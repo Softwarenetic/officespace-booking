@@ -5,6 +5,7 @@ import User from '../entity/User';
 import Workplace from '../entity/Workplace';
 import Office from '../entity/Office';
 import Reservation from '../entity/Reservation';
+import Settings from '../entity/Settings';
 
 @Module({
   imports: [TypeOrmModule.forRootAsync({
@@ -18,7 +19,7 @@ import Reservation from '../entity/Reservation';
       database: configService.get('DB_NAME'),
       synchronize: false,
       logging: true,
-      entities: [User, Workplace, Office, Reservation],
+      entities: [User, Workplace, Office, Reservation, Settings],
       subscribers: [],
       migrationsRun: true,
       migrations: ['dist/migration/**/*.js'],

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import * as process from 'process';
 import User from '../entity/User';
-import { bucketName, region } from '../config/s3.config';
 
 @Injectable()
 export default class UserService {
@@ -16,6 +16,8 @@ export default class UserService {
   async uploadFile(file: Buffer, filename: string, id: number) {
     const accessKeyId = process.env.AWS_ACCESS_KEY;
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+    const bucketName = process.env.AWS_BUCKET_NAME;
+    const region = process.env.AWS_REGION;
 
     const s3 = new S3Client({
       region,
