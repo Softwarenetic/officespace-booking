@@ -11,6 +11,7 @@ import {loginSuccess} from '../../store/reducers/UserSlice';
 import picture from '../../assets/61f134d31a80c10b8052cbb30c7a46ae.jpg';
 import {setAuhtToken} from '../../config/setup';
 import {Alert, AlertTitle} from "@mui/material";
+import Expire from "../../components/Expire/Expire";
 
 const SignInWindow: React.FC = () => {
     const navigate = useNavigate();
@@ -26,13 +27,6 @@ const SignInWindow: React.FC = () => {
         };
         gapi.load('client:auth2', initClient);
     });
-
-    useEffect(() => {
-        const messageTimeout = setTimeout(() => {
-            setMessage('');
-            clearTimeout(messageTimeout);
-        }, 3000);
-    }, [message])
 
     const onFailure = () => {
         setMessage('Google login failed');
@@ -55,7 +49,7 @@ const SignInWindow: React.FC = () => {
                             <GoogleLogin
                                 onSuccess={async (credentialResponse) => {
                                     try {
-                                        const {data} = await axios.post('/login', {
+                                        const {data} = await axios.post('/login0', {
                                             token: credentialResponse.credential,
                                         });
                                         setAuhtToken(data.data && data.data.access_token);
@@ -69,11 +63,11 @@ const SignInWindow: React.FC = () => {
                             />
                         </GoogleOAuthProvider>
                     </Box>
-                    {message !== '' ? (<Alert sx={{margin: "1rem"}} severity="error">
+                    <Expire onExpire={() => {
+                    }} until={message !== '' ? 3500 : 0}><Alert sx={{margin: "1rem"}} severity="error">
                         <AlertTitle>{message}</AlertTitle>
                         Something went wrong. <strong>Try again or later</strong>
-                    </Alert>) : ''
-                    }
+                    </Alert></Expire>
                 </Box>
             </Box>
         </Box>
